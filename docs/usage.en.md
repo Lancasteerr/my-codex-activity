@@ -44,6 +44,42 @@ Run the updated `setup` to add bilingual instructions to older generated files. 
 
 Only manual synchronization from one computer and one account is supported. There is no local scheduler or multi-device/account merging. Start independent history when changing accounts.
 
+## Upgrading the scripts
+
+Upgrade the local scripts, release pointer, and Profile workflow together. `setup` prefers `ref` in `templates/release.json`; it neither chooses the newest commit automatically nor uploads files from `generated/` to the Profile.
+
+1. Obtain the maintainer's updated release in the local tool directory. For a Git installation, run the following; for a source package, replace it with the updated package while keeping your own `.env`:
+
+   ```powershell
+   git pull --ff-only
+   Get-Content templates/release.json
+   ```
+
+   Tool maintainers must first complete the [release procedure](./development.en.md#release-procedure): commit the implementation, run `node scripts/release.mjs`, commit the metadata, and push to the public tool repository. `git commit` saves locally only; `ahead` in `git status -sb` means commits remain unpushed. Regular users should obtain a maintainer-prepared release and do not need to run the release script themselves.
+
+2. Set the desired theme and language in `.env`, for example `ACTIVITY_THEME=github-dark` and `ACTIVITY_LANGUAGE=zh-CN`. Regenerate and inspect the integration files:
+
+   ```powershell
+   npm run setup
+   Select-String -Path generated/codex-activity.yml -Pattern 'uses:|tool_ref:|data/codex/config.json'
+   ```
+
+   The full SHA after `@` in `uses` and the `tool_ref` value must both match `ref` in `templates/release.json`. That revision must contain the desired feature and be publicly readable on GitHub. Display configuration support also requires the `data/codex/config.json` trigger path. If the SHA is still old, the maintainer must update release metadata; repeatedly copying the same old entry will not upgrade the renderer.
+
+3. Fully replace `.github/workflows/codex-activity.yml` in the **Profile repository** with the newly generated `generated/codex-activity.yml`, then commit and push to the Profile's default branch. Alternatively, edit and commit the file on GitHub. The tool and Profile repositories are separate; updating the former does not update the latter. Inspect the final file on GitHub to verify the SHA and trigger path, rather than checking only the local generated file.
+
+4. Return to the local tool directory and run:
+
+   ```powershell
+   npm run sync
+   ```
+
+   A changed workflow entry triggers a redraw. `sync` also triggers a redraw when statistics or display settings change. If the replacement entry, statistics, and settings are all unchanged, there is no new commit or run.
+
+5. In the Profile repository, open **Actions → Codex Activity** and inspect the new run associated with the upgrade commit. For an immediate redraw, choose **Run workflow** on the default branch. If no run appears, check that the remote workflow actually changed and was committed to the default branch. If a successful run still produces the old chart, inspect its actual tool SHA, then the remote `data/codex/config.json` and `assets/codex-activity.svg`. If the remote SVG changed but the README still shows the old image, refresh and allow time for the image cache to update.
+
+After upgrading, everyday theme and language changes require only editing `.env` and running `npm run sync`. Renderer upgrades and timezone changes still require regenerating and replacing the workflow entry.
+
 ## Data and history
 
 The tool maintains `data/codex/usage.json` and `data/codex/config.json` in the Profile repository. The latter contains only public `theme` and `language` settings. Actions writes only `assets/codex-activity.svg`. Do not edit the statistics JSON manually.
@@ -71,7 +107,7 @@ ACTIVITY_LANGUAGE=zh-CN
 
 Even with unchanged statistics, `sync` separately compares and uploads changed display settings, triggering an Actions redraw. If neither file changes, nothing is committed. Actions prefers `data/codex/config.json`; if absent, it uses the workflow's `theme` and English. Invalid configuration stops publication. The update time still comes from the statistics file's commit.
 
-Existing Profiles require a one-time workflow upgrade: use a published version containing this feature, rerun `setup`, replace and commit the generated Profile workflow entry, then run `sync`. The workflow and renderer are pinned to a full commit SHA; updating local code alone does not upgrade the remote renderer. Later theme and language changes do not require `setup`. Timezone changes still require regenerating and replacing the workflow entry.
+For an existing Profile, follow [Upgrading the scripts](#upgrading-the-scripts) to verify the release, replace the entry, and check the remote result. The workflow and renderer are pinned to a full commit SHA; updating local code alone does not upgrade the remote renderer. Later theme and language changes do not require `setup`. Timezone changes still require regenerating and replacing the workflow entry.
 
 ## Failures and recovery
 

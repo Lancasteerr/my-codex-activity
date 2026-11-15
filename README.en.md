@@ -47,6 +47,8 @@ No initial statistics JSON, Actions Secrets, or local clone of the Profile repos
 
 `setup` anonymously checks that the pinned revision is published in the public tool repository. Unpublished revisions cannot generate integration files. Maintainers should read the [release procedure](./docs/development.en.md#release-procedure) first.
 
+For an existing integration, follow [Upgrading the scripts](./docs/usage.en.md#upgrading-the-scripts). `setup` prefers the revision pinned in `templates/release.json`; committing new code or rerunning `setup` does not automatically update that pointer.
+
 ## Documentation
 
 Chinese is the default language. Matching `*.en.md` files contain English versions.

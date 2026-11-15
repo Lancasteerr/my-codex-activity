@@ -67,7 +67,7 @@ npm 使用 `package.json` 的 `files` 白名单，只包含运行源码、发布
 当前工具仓库为 `Lancasteerr/my-codex-activity`。若更换仓库，需同时修改 `package.json` 中的 repository 和 `.github/workflows/render.yml` 中渲染代码的 checkout 仓库，再准备发布。
 
 1. 完成验证并提交实现和文档，确保工作区干净。
-2. 固定发布元数据并提交：
+2. 在干净工作区运行发布脚本，将 `templates/release.json` 的 `ref` 固定到刚提交的实现版本，再提交元数据：
 
    ```powershell
    node scripts/release.mjs
@@ -76,11 +76,22 @@ npm 使用 `package.json` 的 `files` 白名单，只包含运行源码、发布
    npm pack --dry-run
    ```
 
-3. 检查打包清单，需要本地包时执行 `npm pack`。推送公开工具仓库和发布 npm 包均为维护者单独执行的动作，脚本不会自动执行。
+   `node scripts/release.mjs` 只更新本机元数据，不提交、不推送，也不更新 Profile。元数据提交的 SHA 与其中记录的实现 SHA 不同是正常的；应确认被引用的实现包含所需功能。
+
+3. 检查打包清单，需要本地包时执行 `npm pack`。将实现提交和元数据提交一起推送到公开工具仓库；当前默认分支为 `main`：
+
+   ```powershell
+   git push origin main
+   git ls-remote origin refs/heads/main
+   ```
+
+   对照 `git log -1 --format=%H`，确认远程分支已收到最新提交。`git status -sb` 仍显示 `ahead` 时，提交尚未推送。若分发 npm 包或源码包，也需重新打包并发布，避免用户取得旧元数据。发布脚本不会自动执行这些操作。
 4. 使用 `setup` 前，必须先将引用的实现提交推送到公开工具仓库。`setup` 会匿名检查仓库公开性、固定提交内的 `workflow_call` 入口以及内部 checkout 仓库是否一致；失败时不生成新的材料。
-5. 升级 Profile 时运行新版 `setup`，替换生成的工作流入口并提交。
+5. 按[升级到新版脚本](./usage.md#升级到新版脚本)运行 `setup`，核对生成入口的 `uses` 和 `tool_ref` 都等于发布元数据中的 `ref`，再替换 Profile 工作流、提交并推送到默认分支。在 Profile Actions 确认升级提交触发了新运行，不能仅以本机生成成功作为升级完成的依据。
 
 `templates/release.json` 指向完整实现提交 SHA，供没有 `.git` 的包安装目录使用。有合法元数据时 `setup` 优先使用该固定版本，不会自动切换到工作区最新更改。元数据不可用时才尝试当前 Git 提交，不使用可变分支或标签作为版本引用。
+
+例如，代码已包含中文渲染而 `ref` 仍指向不支持语言配置的旧提交时，`setup` 可以成功，却仍生成旧渲染器引用。必须先更新并发布元数据，再重新 `setup`；只推送实现或修改文档不会更新这个指针。
 
 ## 参考
 

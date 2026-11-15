@@ -44,6 +44,42 @@ npm run sync -- --env-file C:\private\codex-activity.env
 
 目前只支持单机、单账户手动同步，不提供本地定时任务或多设备、多账户合并。更换账户时应建立独立历史。
 
+## 升级到新版脚本
+
+本机脚本、发布版本指针和 Profile 工作流需要一起升级。`setup` 优先读取 `templates/release.json` 的 `ref`，不会自动选择最新提交，也不会把 `generated/` 中的文件上传到 Profile。
+
+1. 在本机工具目录获取维护者发布的新版。Git 安装执行下列命令；源码包安装则换用新版包，并保留自己的 `.env`：
+
+   ```powershell
+   git pull --ff-only
+   Get-Content templates/release.json
+   ```
+
+   如果你是工具维护者，先完成[发布流程](./development.md#发布流程)：提交实现、运行 `node scripts/release.mjs`、提交元数据，再推送到公开工具仓库。`git commit` 只保存到本地；`git status -sb` 显示 `ahead` 表示仍有未推送提交。普通使用者应获取维护者准备好的版本，无需自行运行发布脚本。
+
+2. 在 `.env` 设置需要的主题和语言，例如 `ACTIVITY_THEME=github-dark`、`ACTIVITY_LANGUAGE=zh-CN`。然后重新生成接入材料并检查：
+
+   ```powershell
+   npm run setup
+   Select-String -Path generated/codex-activity.yml -Pattern 'uses:|tool_ref:|data/codex/config.json'
+   ```
+
+   `uses` 中 `@` 后的完整 SHA 与 `tool_ref` 必须都等于 `templates/release.json` 的 `ref`，且该提交必须包含需要的新功能并已在 GitHub 公开可读。启用本次显示配置功能还需看到 `data/codex/config.json` 触发路径。若 SHA 仍是旧版，维护者需要更新发布元数据；不要反复复制同一个旧版本入口。
+
+3. 用新生成的 `generated/codex-activity.yml` 完整替换 **Profile 仓库**中的 `.github/workflows/codex-activity.yml`，提交并推送到 Profile 默认分支。也可在 GitHub 网页编辑该文件并提交。工具仓库和 Profile 仓库是两个不同的仓库，更新前者不会自动修改后者。到 GitHub 查看最终文件，确认上述 SHA 和触发路径，而不只查看本机生成文件。
+
+4. 回到本机工具目录执行：
+
+   ```powershell
+   npm run sync
+   ```
+
+   工作流入口变更提交会触发一次重绘；`sync` 也会在统计或显示配置有变化时触发重绘。如果替换后的入口完全相同、统计和配置也都没变化，就没有新的提交，不会产生新的运行。
+
+5. 在 Profile 仓库打开 **Actions → Codex Activity**，查看与升级提交对应的新运行及其结果。需要立即重绘时选择 **Run workflow**，分支选默认分支。若没有新运行，先检查远程工作流是否真的改变、是否提交到了默认分支；若运行成功仍是旧图片，检查运行实际引用的工具 SHA，再检查远程 `data/codex/config.json` 和 `assets/codex-activity.svg`。远程 SVG 已变而 README 仍旧时，可刷新页面并稍候图片缓存更新。
+
+升级完成后，日常只需修改 `.env` 的主题或语言并运行 `npm run sync`。只有升级渲染代码或修改时区时才需要重新生成、替换工作流。
+
 ## 数据与历史
 
 Profile 中由工具维护 `data/codex/usage.json` 和 `data/codex/config.json`，后者仅保存公开的 `theme`、`language`。Actions 只写 `assets/codex-activity.svg`。不要手工编辑统计 JSON。
@@ -71,7 +107,7 @@ ACTIVITY_LANGUAGE=zh-CN
 
 即使统计无变化，`sync` 也会单独比较和上传显示配置，并触发 Actions 重绘；两者都无变化时不提交。Actions 优先使用 `data/codex/config.json`；文件缺失时沿用工作流的 `theme` 并使用英文，配置无效则停止发布。更新时间仍取统计文件的提交时间。
 
-已有 Profile 首次升级时，需要使用包含本功能的已发布版本，重新运行 `setup`，替换生成的 Profile 工作流入口并提交，然后运行 `sync`。工作流和渲染器固定为完整提交 SHA，仅更新本机代码无法升级远程渲染器。完成此次升级后，修改主题、语言无需重新 `setup`。时区仍需重新 `setup` 并替换入口。
+已有 Profile 首次升级请按[升级到新版脚本](#升级到新版脚本)完成版本核对、入口替换和远程验证。工作流和渲染器固定为完整提交 SHA，仅更新本机代码无法升级远程渲染器。完成此次升级后，修改主题、语言无需重新 `setup`。时区仍需重新 `setup` 并替换入口。
 
 ## 失败与恢复
 

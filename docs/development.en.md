@@ -67,7 +67,7 @@ npm uses the `files` allowlist in `package.json`, including runtime source, the 
 The current tool repository is `Lancasteerr/my-codex-activity`. When changing it, update both the repository in `package.json` and the renderer checkout repository in `.github/workflows/render.yml` before preparing a release.
 
 1. Complete checks and commit implementation and documentation, leaving a clean working tree.
-2. Pin and commit release metadata:
+2. With a clean working tree, run the release script to pin `ref` in `templates/release.json` to the implementation commit, then commit the metadata:
 
    ```powershell
    node scripts/release.mjs
@@ -76,11 +76,22 @@ The current tool repository is `Lancasteerr/my-codex-activity`. When changing it
    npm pack --dry-run
    ```
 
-3. Review the package manifest; run `npm pack` if a local package is needed. Pushing the public repository and publishing to npm are separate maintainer actions; the script does not perform them.
+   `node scripts/release.mjs` updates local metadata only. It does not commit, push, or update the Profile. The metadata commit SHA normally differs from the implementation SHA recorded inside it; ensure the referenced implementation contains the desired feature.
+
+3. Review the package manifest; run `npm pack` if a local package is needed. Push both the implementation and metadata commits to the public tool repository. Its current default branch is `main`:
+
+   ```powershell
+   git push origin main
+   git ls-remote origin refs/heads/main
+   ```
+
+   Compare with `git log -1 --format=%H` to confirm the remote branch received the latest commit. `ahead` in `git status -sb` means commits remain unpushed. If distributing an npm or source package, rebuild and publish it too so users receive the updated metadata. The release script does not perform these operations automatically.
 4. Before running `setup`, push the referenced implementation commit to the public tool repository. `setup` anonymously verifies public visibility, the pinned commit's `workflow_call` entry, and the matching internal checkout repository. Failure prevents new integration files from being generated.
-5. To upgrade a Profile integration, run the updated `setup`, replace the generated workflow entry, and commit it.
+5. Follow [Upgrading the scripts](./usage.en.md#upgrading-the-scripts): run `setup`, confirm both generated `uses` and `tool_ref` match the metadata's `ref`, then replace, commit, and push the Profile workflow to its default branch. Verify that the upgrade commit triggers a new run in Profile Actions; local generation alone does not complete the upgrade.
 
 `templates/release.json` points to a full implementation commit SHA for package installations without `.git`. With valid metadata, `setup` prefers that pinned revision rather than automatically using the newest working-tree changes. Only unavailable metadata triggers a fallback to the current Git commit. Mutable branches and tags are never used as revision references.
+
+For example, code may support Chinese rendering while `ref` still points to an older commit that cannot read language settings. In that case, `setup` can succeed while generating an old renderer reference. Update and publish the metadata before rerunning `setup`; pushing implementation code or changing documentation alone does not update that pointer.
 
 ## References
 

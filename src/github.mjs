@@ -5,7 +5,7 @@ import { normalizeUsage, mergeUsage, sameUsage, serializeUsage } from './data.mj
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export class GitHubError extends ActivityError {
-  constructor(status) {
+  constructor(status, reason = null) {
     const messages = {
       0: 'GitHub 请求超时或网络不可用。',
       401: 'GitHub Token 无效或已过期，请在 .env 中更新。',
@@ -15,7 +15,10 @@ export class GitHubError extends ActivityError {
       422: 'GitHub 未接受更新；请检查仓库规则及当前文件版本。',
       429: 'GitHub 请求已限流，请稍后重试。',
     };
-    super(`GITHUB_${status}`, messages[status] ?? 'GitHub 暂时无法完成请求。');
+    const permissionMessage = reason === 'pat-permission'
+      ? '细粒度 Token 无权写入目标仓库；请确认已选择该仓库并将 Contents 设置为 Read and write。无需增加 Workflows 权限。'
+      : null;
+    super(`GITHUB_${status}`, permissionMessage ?? messages[status] ?? 'GitHub 暂时无法完成请求。');
     this.status = status;
   }
 }
@@ -47,9 +50,17 @@ export class GitHubClient {
           ...(body ? { body: JSON.stringify(body) } : {}),
         });
         if (!response.ok) {
-          // Discard API error bodies: never interpolate upstream messages into logs.
-          await response.body?.cancel();
-          throw new GitHubError(response.status);
+          // Recognize a known permission error, but never expose upstream response text.
+          let reason = null;
+          if (response.status === 403) {
+            try {
+              const error = await response.json();
+              if (typeof error.message === 'string' && /Resource not accessible by personal access token/iu.test(error.message)) {
+                reason = 'pat-permission';
+              }
+            } catch { /* Keep the generic, pre-defined diagnostic. */ }
+          } else await response.body?.cancel();
+          throw new GitHubError(response.status, reason);
         }
         const text = await response.text();
         if (text.length > 3_000_000) fail('GITHUB', '远程响应过大；操作已停止。');

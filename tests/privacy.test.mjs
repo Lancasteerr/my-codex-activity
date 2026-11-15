@@ -39,6 +39,10 @@ test('privacy: isolate dotenv, whitelist data, suppress upstream errors and excl
     throw new Error(`${secret} ${email}`);
   }, sleep: async () => {} });
   await assert.rejects(client.repositoryInfo(), error => !safeError(error).includes(secret) && !safeError(error).includes(email));
+  const denied = new GitHubClient({ ...config, fetchImpl: async () => new Response(JSON.stringify({
+    message: `Resource not accessible by personal access token ${secret}`,
+  }), { status: 403 }) });
+  await assert.rejects(denied.repositoryInfo(), error => safeError(error).includes('Contents') && !safeError(error).includes(secret));
   assert.ok(!safeError(new Error(secret)).includes(secret));
   assert.equal(await git(projectRoot, ['check-ignore', '--no-index', '.env', '.env.local']), '.env\n.env.local');
   await assert.rejects(git(projectRoot, ['check-ignore', '--no-index', '.env.example']));

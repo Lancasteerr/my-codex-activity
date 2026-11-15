@@ -89,10 +89,13 @@ export class GitHubClient {
   }
 
   async writeUsage(branch, usage, sha) {
+    // Keep the authenticated user's private primary email out of public commit metadata.
+    const owner = this.repository.split('/')[0];
+    const identity = { name: owner, email: `${owner}@users.noreply.github.com` };
     const result = await this.request(`${this.base}/contents/${DATA_PATH}`, {
       method: 'PUT',
       body: {
-        message: 'Update Codex activity data', branch,
+        message: 'Update Codex activity data', branch, author: identity, committer: identity,
         content: Buffer.from(serializeUsage(usage)).toString('base64'), ...(sha ? { sha } : {}),
       },
     });

@@ -89,6 +89,8 @@ Profile 中只保存一份 `data/codex/usage.json` 和一张 `assets/codex-activ
 
 GitHub 上传使用原生 fetch，目标固定为官方 API，拒绝 HTTP 重定向。Codex 统计使用运行时自己的登录状态；工具不读取、复制或上传 `auth.json`，不创建对话或运行模型。
 
+数据提交使用目标仓库拥有者的 GitHub noreply 邮箱署名，避免把账户的私人主邮箱带入公开提交元数据。署名不替代 Token 鉴权。
+
 日志不输出原始响应、请求头、配置对象或上游异常。公开数据重新按字段白名单构造，原始账户、邮箱、Cookie、API key 和令牌字段不会被复制。Actions 只使用 GitHub 自动提供的临时 `GITHUB_TOKEN`，没有本机 Token 或 Codex 登录态。
 
 细粒度 Token 的 Contents 权限覆盖所选仓库，不是只允许修改统计文件。不要把 `.env` 加进 Profile，不要使用 `git add -f` 绕过忽略规则，不要把 Token 发进聊天或 issue。更换账户时请重新建立独立的历史，V1 不支持混合账户。

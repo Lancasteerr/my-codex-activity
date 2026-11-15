@@ -14,6 +14,7 @@ test('upload: create/update, skip unchanged, merge SHA conflicts and confirm los
     const path = new URL(url).pathname;
     if (options.method === 'PUT') {
       const body = JSON.parse(options.body);
+      assert.equal(body.committer.email, 'example@users.noreply.github.com');
       writes++;
       if (mode === 'conflict') {
         stored.daily['2026-01-01'] = 9;

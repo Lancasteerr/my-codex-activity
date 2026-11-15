@@ -48,7 +48,6 @@ export async function collectUsage(codexBin, { timeoutMs = 30_000 } = {}) {
   });
   // Neither stderr nor unsolicited notifications are ever forwarded to a log.
   child.stderr.resume();
-  child.stdin.on('error', () => {});
   const lines = createInterface({ input: child.stdout, crlfDelay: Infinity });
   const pending = new Map();
   let nextId = 0;
@@ -58,6 +57,10 @@ export async function collectUsage(codexBin, { timeoutMs = 30_000 } = {}) {
     for (const request of pending.values()) { clearTimeout(request.timer); request.reject(error); }
     pending.clear();
   };
+  child.stdin.on('error', () => rejectAll(new ActivityError('CODEX_IO', 'Codex 统计连接已中断。')));
+  child.stdout.on('error', () => rejectAll(new ActivityError('CODEX_IO', 'Codex 统计连接已中断。')));
+  child.stderr.on('error', () => {});
+  lines.on('error', () => rejectAll(new ActivityError('CODEX_IO', 'Codex 统计连接已中断。')));
   child.on('error', () => rejectAll(new ActivityError('CODEX_START', '无法启动 Codex 运行时。')));
   child.on('exit', () => rejectAll(new ActivityError('CODEX_EXIT', 'Codex 运行时已退出；请检查版本和登录状态。')));
   lines.on('line', line => {

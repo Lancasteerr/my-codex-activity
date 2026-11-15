@@ -5,8 +5,8 @@
   <style>text{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Microsoft YaHei,PingFang SC,Noto Sans CJK SC,sans-serif;fill:#e6edf3}.muted{fill:#8b949e;font-size:11px}.metric{font-size:25px;font-weight:600}.label{font-size:11px;fill:#8b949e}</style>
   <text x="30" y="32" font-size="18" font-weight="600">Codex Activity</text>
   <text x="30" y="77" class="label">TOTAL TOKENS</text><text x="30" y="106" class="metric">287.4M</text>
-  <text x="300" y="77" class="label">ACTIVE STREAK · AT LAST SYNC</text><text x="300" y="106" class="metric">8 days</text>
-  <text x="610" y="77" class="label">RECORDED DAYS</text><text x="610" y="106" class="metric">273</text>
+  <text x="300" y="77" class="label">LONGEST ACTIVE STREAK</text><text x="300" y="106" class="metric">24 days</text>
+  <text x="610" y="77" class="label">CURRENT ACTIVE STREAK</text><text x="610" y="106" class="metric">8 days</text>
   <g class="muted"><text x="30" y="134">Nov</text><text x="58" y="134">Dec</text><text x="114" y="134">Jan</text><text x="184" y="134">Feb</text><text x="240" y="134">Mar</text><text x="296" y="134">Apr</text><text x="352" y="134">May</text><text x="422" y="134">Jun</text><text x="478" y="134">Jul</text><text x="534" y="134">Aug</text><text x="604" y="134">Sep</text><text x="660" y="134">Oct</text><text x="730" y="134">Nov</text></g>
   <rect x="30" y="145" width="10" height="10" rx="2" fill="#0d1117" stroke="#30363d"><title>2025-11-16: outside view</title></rect>
   <rect x="30" y="159" width="10" height="10" rx="2" fill="#0d1117" stroke="#484f58" stroke-dasharray="2 2"><title>2025-11-17: unknown / not synced</title></rect>

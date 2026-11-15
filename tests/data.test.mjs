@@ -10,7 +10,7 @@ test('history: initialize, replace dates, keep old dates and zero, reject unavai
   const latest = usage({ '2026-11-15': 20, '2026-11-13': 40 }, { lifetimeTokens: 90, currentStreakDays: null });
   const merged = mergeUsage(first, latest);
   assert.deepEqual(merged.daily, { '2026-11-13': 40, '2026-11-14': 0, '2026-11-15': 20 });
-  assert.deepEqual(merged.summary, { lifetimeTokens: 90, currentStreakDays: null });
+  assert.deepEqual(merged.summary, { lifetimeTokens: 90, currentStreakDays: null, longestStreakDays: null });
   assert.ok(sameUsage(merged, mergeUsage(merged, latest)));
   assert.equal(serializeUsage(merged), serializeUsage({ ...merged, daily: Object.fromEntries(Object.entries(merged.daily).reverse()), collectedAt: 'ignored' }));
   assert.throws(() => fromRpc({ summary: {}, dailyUsageBuckets: null }));

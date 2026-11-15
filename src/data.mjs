@@ -12,7 +12,8 @@ export function validDate(value) {
 function summaryOf(value) {
   if (!object(value)) fail('DATA', '统计汇总结构无效；未上传。');
   const summary = {};
-  for (const key of ['lifetimeTokens', 'currentStreakDays']) {
+  for (const key of ['lifetimeTokens', 'currentStreakDays', 'longestStreakDays']) {
+    // 兼容尚未保存最长连续天数的历史数据；缺失值保持未知，不从每日记录推算。
     const metric = value[key] ?? null;
     if (metric !== null && !validNumber(metric)) fail('DATA', '统计数值无效；未上传。');
     summary[key] = metric;

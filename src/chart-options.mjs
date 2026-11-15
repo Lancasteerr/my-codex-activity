@@ -6,14 +6,14 @@ export const themes = {
 
 export const translations = {
   en: {
-    title: 'Codex Activity', total: 'TOTAL TOKENS', streak: 'ACTIVE STREAK · AT LAST SYNC', recorded: 'RECORDED DAYS',
+    title: 'Codex Activity', total: 'TOTAL TOKENS', longestStreak: 'LONGEST ACTIVE STREAK', currentStreak: 'CURRENT ACTIVE STREAK',
     unavailable: 'Unavailable', notSynced: 'Not synced yet', unknown: 'Unknown / not synced', less: 'Less', more: 'More',
     updated: 'Last updated', future: 'future', outside: 'outside view', unknownCell: 'unknown / not synced', tokens: 'tokens',
     days: count => `${count} days`,
     description: (today, total, uploaded) => `52-week view · through ${today} · summaries as of last sync. ${total ?? 'Unknown'} lifetime tokens. Last data upload: ${uploaded}. Dashed cells are unknown, not zero.`,
   },
   'zh-CN': {
-    title: 'Codex 活动', total: '累计 Token', streak: '连续活跃天数 · 截至上次同步', recorded: '已记录天数',
+    title: 'Codex 活动', total: '累计 Token', longestStreak: '最长连续活跃', currentStreak: '目前连续天数',
     unavailable: '暂无数据', notSynced: '尚未同步', unknown: '未知 / 尚未同步', less: '少', more: '多',
     updated: '最后更新', future: '未来日期', outside: '显示范围外', unknownCell: '未知 / 尚未同步', tokens: 'Token',
     days: count => `${count} 天`,

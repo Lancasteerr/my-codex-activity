@@ -64,8 +64,9 @@ export function renderSvg(value, { lastUpdated = null, timezone = CHART_DEFAULTS
     }
   }
   const total = usage.summary.lifetimeTokens;
-  const streak = usage.summary.currentStreakDays;
-  const observed = Object.keys(usage.daily).filter(date => date <= today).length;
+  // 两项连续天数均取官方汇总，保留上次同步时的数值。
+  const longestStreak = usage.summary.longestStreakDays;
+  const currentStreak = usage.summary.currentStreakDays;
   const uploaded = formatUpload(lastUpdated, timezone, language);
   const legend = [palette.zero, ...palette.levels].map((color, index) => `<rect x="${656 + index * 14}" y="259" width="10" height="10" rx="2" fill="${color}"/>`).join('');
   return `<svg xmlns="http://www.w3.org/2000/svg" width="820" height="326" viewBox="0 0 820 326" xml:lang="${language}" role="img" aria-labelledby="title description">
@@ -75,8 +76,8 @@ export function renderSvg(value, { lastUpdated = null, timezone = CHART_DEFAULTS
   <style>text{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Microsoft YaHei,PingFang SC,Noto Sans CJK SC,sans-serif;fill:${palette.text}}.muted{fill:${palette.muted};font-size:11px}.metric{font-size:25px;font-weight:600}.label{font-size:11px;fill:${palette.muted}}</style>
   <text x="30" y="32" font-size="18" font-weight="600">${labels.title}</text>
   <text x="30" y="77" class="label">${labels.total}</text><text x="30" y="106" class="metric">${escapeXml(compact(total))}</text>
-  <text x="300" y="77" class="label">${labels.streak}</text><text x="300" y="106" class="metric">${escapeXml(streak === null ? labels.unavailable : labels.days(streak))}</text>
-  <text x="610" y="77" class="label">${labels.recorded}</text><text x="610" y="106" class="metric">${observed.toLocaleString(language)}</text>
+  <text x="300" y="77" class="label">${labels.longestStreak}</text><text x="300" y="106" class="metric">${escapeXml(longestStreak === null ? labels.unavailable : labels.days(longestStreak))}</text>
+  <text x="610" y="77" class="label">${labels.currentStreak}</text><text x="610" y="106" class="metric">${escapeXml(currentStreak === null ? labels.unavailable : labels.days(currentStreak))}</text>
   <g class="muted">${months.join('')}</g>
   ${cells.join('\n  ')}
   <rect x="30" y="259" width="10" height="10" rx="2" fill="${palette.unknown}" stroke="${palette.outline}" stroke-dasharray="2 2"/><text x="47" y="268" class="muted">${labels.unknown}</text>

@@ -23,7 +23,7 @@ test('chart: deterministic same-day output, rolling unknown dates, actual upload
   assert.ok(renderSvg(value, { ...options, theme: 'github-light' }).includes('#ffffff'));
   assert.ok(!/<text[^>]*y="(?:51|314)"/u.test(svg));
   const chinese = renderSvg(value, { ...options, language: 'zh-CN' });
-  for (const text of ['Codex 活动', '累计 Token', '连续活跃天数', '已记录天数', '1 天', '11月', '未知 / 尚未同步', '最后更新', '虚线方格表示未知']) {
+  for (const text of ['Codex 活动', '累计 Token', '最长连续活跃', '目前连续天数', '1 天', '11月', '未知 / 尚未同步', '最后更新', '虚线方格表示未知']) {
     assert.ok(chinese.includes(text), text);
   }
   assert.ok(chinese.includes('2026-11-15: 0 Token'));

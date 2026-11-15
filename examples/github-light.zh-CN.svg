@@ -5,8 +5,8 @@
   <style>text{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Microsoft YaHei,PingFang SC,Noto Sans CJK SC,sans-serif;fill:#1f2328}.muted{fill:#656d76;font-size:11px}.metric{font-size:25px;font-weight:600}.label{font-size:11px;fill:#656d76}</style>
   <text x="30" y="32" font-size="18" font-weight="600">Codex 活动</text>
   <text x="30" y="77" class="label">累计 Token</text><text x="30" y="106" class="metric">2.87亿</text>
-  <text x="300" y="77" class="label">连续活跃天数 · 截至上次同步</text><text x="300" y="106" class="metric">8 天</text>
-  <text x="610" y="77" class="label">已记录天数</text><text x="610" y="106" class="metric">273</text>
+  <text x="300" y="77" class="label">最长连续活跃</text><text x="300" y="106" class="metric">24 天</text>
+  <text x="610" y="77" class="label">目前连续天数</text><text x="610" y="106" class="metric">8 天</text>
   <g class="muted"><text x="30" y="134">11月</text><text x="58" y="134">12月</text><text x="114" y="134">1月</text><text x="184" y="134">2月</text><text x="240" y="134">3月</text><text x="296" y="134">4月</text><text x="352" y="134">5月</text><text x="422" y="134">6月</text><text x="478" y="134">7月</text><text x="534" y="134">8月</text><text x="604" y="134">9月</text><text x="660" y="134">10月</text><text x="730" y="134">11月</text></g>
   <rect x="30" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#d0d7de"><title>2025-11-16: 显示范围外</title></rect>
   <rect x="30" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-17: 未知 / 尚未同步</title></rect>

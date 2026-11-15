@@ -9,3 +9,8 @@ generated/
 *.log
 *.tgz
 _tool/
+/.idea/.gitignore
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/my-codex-activity.iml
+/.idea/vcs.xml

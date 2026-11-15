@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { parseEnv } from 'node:util';
 import { fail } from './errors.mjs';
+import { CHART_DEFAULTS, themes, translations } from './chart-options.mjs';
 
 export const DATA_PATH = 'data/codex/usage.json';
 export const DISPLAY_CONFIG_PATH = 'data/codex/config.json';
@@ -10,8 +11,9 @@ export const WORKFLOW_PATH = '.github/workflows/codex-activity.yml';
 
 export function normalizeDisplayConfig(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) fail('CONFIG', '显示配置必须是包含 theme 和 language 的对象。');
-  if (!['github-dark', 'github-light'].includes(value.theme)) fail('CONFIG', 'ACTIVITY_THEME 必须是 github-dark 或 github-light。');
-  if (!['en', 'zh-CN'].includes(value.language)) fail('CONFIG', 'ACTIVITY_LANGUAGE 必须是 en 或 zh-CN。');
+  // 支持列表直接来自实际定义，新增主题或语言无需维护第二份枚举。
+  if (!Object.hasOwn(themes, value.theme)) fail('CONFIG', `ACTIVITY_THEME 必须是 ${Object.keys(themes).join(' 或 ')}。`);
+  if (!Object.hasOwn(translations, value.language)) fail('CONFIG', `ACTIVITY_LANGUAGE 必须是 ${Object.keys(translations).join(' 或 ')}。`);
   return { theme: value.theme, language: value.language };
 }
 
@@ -37,8 +39,8 @@ export async function readConfig(envFile = '.env') {
     fail('CONFIG', 'TIMEZONE 必须是有效 IANA 时区，例如 Asia/Singapore。');
   }
   const display = normalizeDisplayConfig({
-    theme: values.ACTIVITY_THEME?.trim() || 'github-dark',
-    language: values.ACTIVITY_LANGUAGE?.trim() || 'en',
+    theme: values.ACTIVITY_THEME?.trim() || CHART_DEFAULTS.theme,
+    language: values.ACTIVITY_LANGUAGE?.trim() || CHART_DEFAULTS.language,
   });
   // Read only known keys. In particular, do not mutate process.env or propagate secrets.
   return { token, repository, timezone, ...display, codexBin: values.CODEX_BIN?.trim() || null };

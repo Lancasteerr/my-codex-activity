@@ -1,4 +1,5 @@
 import { DATA_PATH, DISPLAY_CONFIG_PATH, normalizeDisplayConfig } from './config.mjs';
+import { CHART_DEFAULTS } from './chart-options.mjs';
 import { ActivityError, fail } from './errors.mjs';
 import { normalizeUsage, mergeUsage, sameUsage, serializeUsage } from './data.mjs';
 
@@ -139,7 +140,7 @@ export class GitHubClient {
   }
 }
 
-export async function syncDisplayConfig(client, { branch, theme = 'github-dark', language = 'en' }) {
+export async function syncDisplayConfig(client, { branch, theme = CHART_DEFAULTS.theme, language = CHART_DEFAULTS.language }) {
   const candidate = normalizeDisplayConfig({ theme, language });
   const matches = config => config?.theme === candidate.theme && config?.language === candidate.language;
   for (let attempt = 0; attempt < 3; attempt++) {

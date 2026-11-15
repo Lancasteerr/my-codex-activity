@@ -2,6 +2,7 @@ import { readFile, writeFile, mkdir, realpath, lstat } from 'node:fs/promises';
 import { resolve, dirname, relative, isAbsolute, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { DATA_PATH, DISPLAY_CONFIG_PATH, SVG_PATH, normalizeDisplayConfig } from './config.mjs';
+import { CHART_DEFAULTS } from './chart-options.mjs';
 import { normalizeUsage } from './data.mjs';
 import { renderSvg } from './render.mjs';
 import { git } from './git.mjs';
@@ -27,7 +28,7 @@ async function safeFile(root, name, { createParent = false } = {}) {
   return target;
 }
 
-export async function buildSvg(directory, { timezone = 'UTC', theme = 'github-dark', language = 'en', now = new Date() } = {}) {
+export async function buildSvg(directory, { timezone = CHART_DEFAULTS.timezone, theme = CHART_DEFAULTS.theme, language = CHART_DEFAULTS.language, now = new Date() } = {}) {
   const root = await realpath(directory);
   const input = await safeFile(root, DATA_PATH);
   let text;
@@ -93,7 +94,8 @@ export async function publishSvg(directory, options = {}) {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const [mode, directory] = process.argv.slice(2);
-  const options = { timezone: process.env.ACTIVITY_TIMEZONE || 'UTC', theme: process.env.ACTIVITY_THEME || 'github-dark' };
+  // Actions 只传时区；主题和语言由 Profile 中的公开配置决定。
+  const options = { timezone: process.env.ACTIVITY_TIMEZONE || CHART_DEFAULTS.timezone };
   const task = mode === 'publish'
     ? publishSvg(directory, { ...options, branch: process.env.ACTIVITY_BRANCH, repository: process.env.GITHUB_REPOSITORY, token: process.env.GITHUB_TOKEN })
     : mode === 'build' && directory ? buildSvg(directory, options) : Promise.reject(new Error());

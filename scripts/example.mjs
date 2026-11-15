@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { renderSvg } from '../src/render.mjs';
+import { CHART_DEFAULTS, themes, translations } from '../src/chart-options.mjs';
 
 const daily = {};
 for (let day = 0; day < 364; day++) {
@@ -12,9 +13,10 @@ for (let day = 0; day < 364; day++) {
 const usage = { schemaVersion: 1, source: 'codex-app-server', summary: { lifetimeTokens: 287_400_000, currentStreakDays: 8 }, daily };
 const output = fileURLToPath(new URL('../examples/', import.meta.url));
 await mkdir(output, { recursive: true });
-for (const theme of ['github-dark', 'github-light']) {
-  for (const language of ['en', 'zh-CN']) {
-    const suffix = language === 'en' ? '' : `.${language}`;
+// 遍历实际支持的定义，保持示例与配置、渲染能力一致。
+for (const theme of Object.keys(themes)) {
+  for (const language of Object.keys(translations)) {
+    const suffix = language === CHART_DEFAULTS.language ? '' : `.${language}`;
     await writeFile(`${output}/${theme}${suffix}.svg`, renderSvg(usage, {
       now: new Date('2026-11-15T06:30:00Z'), lastUpdated: '2026-11-15T06:30:00Z', timezone: 'Asia/Singapore', theme, language,
     }));

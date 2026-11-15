@@ -1,28 +1,7 @@
 import { normalizeUsage, validDate } from './data.mjs';
 import { fail } from './errors.mjs';
 import { normalizeDisplayConfig } from './config.mjs';
-
-const themes = {
-  'github-dark': { bg: '#0d1117', border: '#30363d', text: '#e6edf3', muted: '#8b949e', zero: '#161b22', unknown: '#0d1117', outline: '#484f58', levels: ['#0e4429', '#006d32', '#26a641', '#39d353'] },
-  'github-light': { bg: '#ffffff', border: '#d0d7de', text: '#1f2328', muted: '#656d76', zero: '#ebedf0', unknown: '#ffffff', outline: '#afb8c1', levels: ['#9be9a8', '#40c463', '#30a14e', '#216e39'] },
-};
-
-const translations = {
-  en: {
-    title: 'Codex Activity', total: 'TOTAL TOKENS', streak: 'ACTIVE STREAK · AT LAST SYNC', recorded: 'RECORDED DAYS',
-    unavailable: 'Unavailable', notSynced: 'Not synced yet', unknown: 'Unknown / not synced', less: 'Less', more: 'More',
-    updated: 'Last updated', future: 'future', outside: 'outside view', unknownCell: 'unknown / not synced', tokens: 'tokens',
-    days: count => `${count} days`,
-    description: (today, total, uploaded) => `52-week view · through ${today} · summaries as of last sync. ${total ?? 'Unknown'} lifetime tokens. Last data upload: ${uploaded}. Dashed cells are unknown, not zero.`,
-  },
-  'zh-CN': {
-    title: 'Codex 活动', total: '累计 Token', streak: '连续活跃天数 · 截至上次同步', recorded: '已记录天数',
-    unavailable: '暂无数据', notSynced: '尚未同步', unknown: '未知 / 尚未同步', less: '少', more: '多',
-    updated: '最后更新', future: '未来日期', outside: '显示范围外', unknownCell: '未知 / 尚未同步', tokens: 'Token',
-    days: count => `${count} 天`,
-    description: (today, total, uploaded) => `最近 52 周，截至 ${today}；汇总数据截至上次同步。累计 Token：${total ?? '未知'}。上次数据上传：${uploaded}。虚线方格表示未知，而非零用量。`,
-  },
-};
+import { CHART_DEFAULTS, themes, translations } from './chart-options.mjs';
 
 export const escapeXml = value => String(value).replace(/[<>&"']/gu, character => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;' })[character]);
 
@@ -33,7 +12,7 @@ export function dateInZone(now, timezone) {
   return `${parts.year}-${parts.month}-${parts.day}`;
 }
 
-export function formatUpload(value, timezone, language = 'en') {
+export function formatUpload(value, timezone, language = CHART_DEFAULTS.language) {
   if (!value) return translations[language].notSynced;
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) fail('RENDER', '上传时间无效。');
@@ -44,7 +23,7 @@ export function formatUpload(value, timezone, language = 'en') {
   return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute} ${parts.timeZoneName.replace('GMT', 'UTC')}`;
 }
 
-export function renderSvg(value, { lastUpdated = null, timezone = 'UTC', theme = 'github-dark', language = 'en', now = new Date() } = {}) {
+export function renderSvg(value, { lastUpdated = null, timezone = CHART_DEFAULTS.timezone, theme = CHART_DEFAULTS.theme, language = CHART_DEFAULTS.language, now = new Date() } = {}) {
   const usage = normalizeUsage(value);
   normalizeDisplayConfig({ theme, language });
   const palette = themes[theme];

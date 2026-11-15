@@ -1,6 +1,9 @@
+# 本机凭据 / Local credentials
 .env
 .env.*
 !.env.example
+
+# 生成文件与临时产物 / Generated and temporary files
 node_modules/
 .cache/
 coverage/
@@ -9,8 +12,6 @@ generated/
 *.log
 *.tgz
 _tool/
-/.idea/.gitignore
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/my-codex-activity.iml
-/.idea/vcs.xml
+
+# 本机 IDE 设置 / Local IDE settings
+/.idea/

@@ -67,6 +67,33 @@ export function profileWorkflow(template, { branch, timezone, repository, ref })
     .replaceAll('__TOOL_REF__', ref);
 }
 
+export function setupDocuments({ repository }, branch, release) {
+  return {
+    'README-snippet.md': '## 我的 Codex 活动\n\n![Codex 活动](./assets/codex-activity.svg)\n',
+    'README-snippet.en.md': '## My Codex Activity\n\n![Codex Activity](./assets/codex-activity.svg)\n',
+    'SETUP.md': [
+      '# Profile 接入', '',
+      '**简体中文（默认）** | [English](./SETUP.en.md)', '',
+      `目标仓库：${repository}；默认分支：${branch}。`, '',
+      '1. 将 [codex-activity.yml](./codex-activity.yml) 放入目标仓库 .github/workflows/。',
+      '2. 将 [README-snippet.md](./README-snippet.md) 中的内容加入 Profile README，然后提交这些接入文件。',
+      '3. 运行 npm run sync；不需要创建空 JSON 或配置仓库 Secrets。', '',
+      `工具引用：${release.repository}@${release.ref}。该提交必须已在公开工具仓库中发布，GitHub 才能执行工作流。`,
+      '升级时重新运行 setup，将生成的新入口替换到 Profile。不要复制 .env。', '',
+    ].join('\n'),
+    'SETUP.en.md': [
+      '# Profile integration', '',
+      '[简体中文（默认）](./SETUP.md) | **English**', '',
+      `Target repository: ${repository}; default branch: ${branch}.`, '',
+      '1. Place [codex-activity.yml](./codex-activity.yml) in .github/workflows/ in the target repository.',
+      '2. Add the contents of [README-snippet.en.md](./README-snippet.en.md) to the Profile README, then commit these integration files.',
+      '3. Run npm run sync; no empty JSON or repository Secrets are needed.', '',
+      `Tool reference: ${release.repository}@${release.ref}. This commit must be published in the public tool repository before GitHub can run the workflow.`,
+      'To upgrade, rerun setup and replace the generated Profile workflow entry. Do not copy .env.', '',
+    ].join('\n'),
+  };
+}
+
 export async function generateSetup(config, branch, outputDirectory = join(process.cwd(), 'generated')) {
   const release = await releaseReference();
   await verifyRelease(release);
@@ -74,15 +101,8 @@ export async function generateSetup(config, branch, outputDirectory = join(proce
   const workflow = profileWorkflow(template, { branch, timezone: config.timezone, ...release });
   await mkdir(outputDirectory, { recursive: true });
   await writeFile(join(outputDirectory, 'codex-activity.yml'), workflow);
-  await writeFile(join(outputDirectory, 'README-snippet.md'), '## My Codex Activity\n\n![Codex Activity](./assets/codex-activity.svg)\n');
-  await writeFile(join(outputDirectory, 'SETUP.md'), [
-    '# Profile 接入', '',
-    `目标仓库：${config.repository}；默认分支：${branch}。`, '',
-    '1. 将 codex-activity.yml 放入目标仓库 .github/workflows/。',
-    '2. 将 README-snippet.md 中的内容加入 Profile README。',
-    '3. 运行 npm run sync；不需要创建空 JSON 或配置仓库 Secrets。', '',
-    `工具引用：${release.repository}@${release.ref}。该提交必须已在公开工具仓库中发布，GitHub 才能执行工作流。`,
-    '升级时重新运行 setup，将生成的新入口替换到 Profile。不要复制 .env。', '',
-  ].join('\n'));
+  for (const [name, contents] of Object.entries(setupDocuments(config, branch, release))) {
+    await writeFile(join(outputDirectory, name), contents);
+  }
   return { release, outputDirectory };
 }

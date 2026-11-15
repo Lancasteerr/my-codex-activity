@@ -9,7 +9,7 @@ import { GitHubClient } from '../src/github.mjs';
 import { safeError } from '../src/errors.mjs';
 import { renderSvg } from '../src/render.mjs';
 import { git } from '../src/git.mjs';
-import { projectRoot, profileWorkflow, verifyRelease } from '../src/setup.mjs';
+import { projectRoot, profileWorkflow, setupDocuments, verifyRelease } from '../src/setup.mjs';
 import { temporary } from './helpers.mjs';
 
 test('privacy: isolate dotenv, whitelist data, suppress upstream errors and exclude secrets', async t => {
@@ -53,6 +53,20 @@ test('privacy: isolate dotenv, whitelist data, suppress upstream errors and excl
   assert.ok(!workflow.includes(secret) && workflow.includes('timezone: "Asia/Singapore"'));
   assert.ok(workflow.includes(`@${'a'.repeat(40)}`));
   const release = { repository: 'example/tool', ref: 'a'.repeat(40) };
+  const documents = setupDocuments(config, 'main', release);
+  assert.deepEqual(Object.keys(documents).sort(), ['README-snippet.en.md', 'README-snippet.md', 'SETUP.en.md', 'SETUP.md']);
+  for (const contents of Object.values(documents)) {
+    assert.ok(!contents.includes(secret) && !contents.includes(email));
+  }
+  assert.ok(documents['SETUP.md'].includes('[English](./SETUP.en.md)'));
+  assert.ok(documents['SETUP.en.md'].includes('[简体中文（默认）](./SETUP.md)'));
+  for (const [locale, title] of [['', '我的 Codex 活动'], ['.en', 'My Codex Activity']]) {
+    assert.ok(documents[`README-snippet${locale}.md`].startsWith(`## ${title}\n`));
+    assert.ok(documents[`README-snippet${locale}.md`].includes('(./assets/codex-activity.svg)'));
+    assert.ok(documents[`SETUP${locale}.md`].includes(`(./README-snippet${locale}.md)`));
+    assert.ok(documents[`SETUP${locale}.md`].includes(`${release.repository}@${release.ref}`));
+    assert.ok(documents[`SETUP${locale}.md`].includes(config.repository));
+  }
   let source = 'on:\n  workflow_call:\njobs:\n  render:\n    repository: example/tool\n';
   const fetchPublic = async (url, options) => {
     assert.equal(options.headers.Authorization, undefined);

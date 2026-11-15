@@ -38,7 +38,7 @@ export async function main(args = process.argv.slice(2), log = console.log) {
       await generateSetup(config, branch);
       log(`检查通过：${config.repository} (${branch})；Codex 统计可用。`);
       log('已在 generated/ 生成 codex-activity.yml，以及中英文 README 片段和接入说明；默认请阅读 SETUP.md。');
-      log('请将工作流与 README 片段加入 Profile；不要复制 .env。工具引用提交须先发布到公开工具仓库。');
+      log('请将工作流与 README 片段加入 Profile 并推送；不要复制 .env。后续兼容更新会在下次 Actions 运行时自动采用。');
     } else if (command === 'status') {
       const remote = await client.readUsage(branch);
       const uploaded = remote.usage ? await client.lastUpload(branch) : null;
@@ -60,6 +60,8 @@ export async function main(args = process.argv.slice(2), log = console.log) {
       try {
         const display = await syncDisplayConfig(client, { branch, theme: config.theme, language: config.language });
         log(display.changed ? '显示配置已同步；图表等待 Actions 更新。' : '显示配置无变化。');
+        // 上传结果不等于图片生成结果；无变化时也不会产生新的 Actions 运行。
+        if (!result.changed && !display.changed) log('未触发新的重绘；需要立即重绘可在 Profile Actions 选择 Run workflow。');
       } catch (error) {
         log('统计同步已完成；显示配置同步失败，修复错误后再次运行 sync 即可补齐。');
         throw error;

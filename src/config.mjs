@@ -12,8 +12,8 @@ export const WORKFLOW_PATH = '.github/workflows/codex-activity.yml';
 export function normalizeDisplayConfig(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) fail('CONFIG', '显示配置必须是包含 theme 和 language 的对象。');
   // 支持列表直接来自实际定义，新增主题或语言无需维护第二份枚举。
-  if (!Object.hasOwn(themes, value.theme)) fail('CONFIG', `ACTIVITY_THEME 必须是 ${Object.keys(themes).join(' 或 ')}。`);
-  if (!Object.hasOwn(translations, value.language)) fail('CONFIG', `ACTIVITY_LANGUAGE 必须是 ${Object.keys(translations).join(' 或 ')}。`);
+  if (typeof value.theme !== 'string' || !Object.hasOwn(themes, value.theme)) fail('CONFIG', `ACTIVITY_THEME 必须是 ${Object.keys(themes).join(' 或 ')}。`);
+  if (typeof value.language !== 'string' || !Object.hasOwn(translations, value.language)) fail('CONFIG', `ACTIVITY_LANGUAGE 必须是 ${Object.keys(translations).join(' 或 ')}。`);
   return { theme: value.theme, language: value.language };
 }
 

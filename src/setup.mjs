@@ -1,116 +1,98 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { git } from './git.mjs';
+import { DATA_PATH, DISPLAY_CONFIG_PATH, SVG_PATH, WORKFLOW_PATH } from './config.mjs';
 import { fail } from './errors.mjs';
 
 export const projectRoot = dirname(dirname(fileURLToPath(import.meta.url)));
+const repositoryPattern = /^[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+$/u;
 
-export async function releaseReference() {
-  try {
-    const release = JSON.parse(await readFile(join(projectRoot, 'templates', 'release.json'), 'utf8'));
-    if (/^[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+$/u.test(release.repository)
-      && /^[a-f0-9]{40}$/u.test(release.ref)) return release;
-  } catch { /* Source checkouts can resolve their own committed revision. */ }
-  try {
-    const ref = await git(projectRoot, ['rev-parse', 'HEAD']);
-    await git(projectRoot, ['cat-file', '-e', `${ref}:src/ci.mjs`]);
-    const metadata = JSON.parse(await readFile(join(projectRoot, 'package.json'), 'utf8'));
-    const repository = metadata.repository.url.match(/^https:\/\/github\.com\/([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)\.git$/u)?.[1];
-    if (repository && /^[a-f0-9]{40}$/u.test(ref)) return { repository, ref };
-  } catch { /* No mutable branch or tag fallback is permitted. */ }
-  fail('RELEASE', '缺少固定版本信息；请使用完整 Git checkout 或带版本信息的发布包。');
+// 工具地址只从包信息读取；源码目录和安装包使用相同方式，不依赖 Git 元数据。
+export async function toolRepository() {
+  const metadata = JSON.parse(await readFile(join(projectRoot, 'package.json'), 'utf8'));
+  const repository = metadata.repository?.url?.match(/^https:\/\/github\.com\/(.+)\.git$/u)?.[1];
+  if (!repositoryPattern.test(repository ?? '')) fail('CONFIG', 'package.json 中需要有效的 GitHub 工具仓库地址。');
+  return repository;
 }
 
-export async function verifyRelease(release, { fetchImpl = fetch } = {}) {
-  if (!/^[\w.-]+\/[\w.-]+$/u.test(release.repository) || !/^[a-f0-9]{40}$/u.test(release.ref)) {
-    fail('RELEASE', '工具发布版本无效。');
-  }
-  // Public lookup only: never send the Profile PAT to the tool repository.
+export async function verifyAction(repository, { fetchImpl = fetch } = {}) {
+  if (!repositoryPattern.test(repository)) fail('CONFIG', '工具仓库地址无效。');
+  // 只匿名读取公开 Action，绝不向工具仓库发送 Profile Token。
   const readPublic = async path => {
     let response;
     try {
-      response = await fetchImpl(`https://api.github.com/repos/${release.repository}${path}`, {
+      response = await fetchImpl(`https://api.github.com/repos/${repository}${path}`, {
         redirect: 'error', signal: AbortSignal.timeout(15_000),
         headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'codex-activity/0.1.0' },
       });
-    } catch { fail('RELEASE_ACCESS', '无法验证公开工具版本，请检查网络后重试。'); }
+    } catch { fail('ACTION_ACCESS', '无法检查公开 Action，请检查网络后重试。'); }
     if (!response.ok) {
       await response.body?.cancel();
-      fail('RELEASE_ACCESS', '工具仓库或固定版本不可公开访问；请先发布正确的工具仓库及提交。');
+      fail('ACTION_ACCESS', '工具仓库 main 上的 Action 不可公开访问，请先发布 action.yml。');
     }
     try { return await response.json(); }
-    catch { fail('RELEASE_ACCESS', '公开工具版本检查返回无效数据。'); }
+    catch { fail('ACTION_ACCESS', '公开 Action 检查返回无效数据。'); }
   };
-  const repository = await readPublic('');
-  if (repository.private !== false || repository.visibility !== 'public') {
-    fail('RELEASE_ACCESS', '公开 Profile 需要调用公开工具仓库，请先检查工具仓库可见性。');
-  }
-  const file = await readPublic(`/contents/.github/workflows/render.yml?ref=${release.ref}`);
+  const metadata = await readPublic('');
+  if (metadata.private !== false || metadata.visibility !== 'public') fail('ACTION_ACCESS', 'Profile 需要调用公开工具仓库中的 Action。');
+  const file = await readPublic('/contents/action.yml?ref=main');
   if (file.type !== 'file' || file.encoding !== 'base64' || typeof file.content !== 'string') {
-    fail('RELEASE_ACCESS', '指定工具版本中缺少可复用工作流。');
+    fail('ACTION_ACCESS', '工具仓库 main 上缺少 action.yml。');
   }
-  const workflow = Buffer.from(file.content, 'base64').toString('utf8');
-  if (!/^\s*workflow_call:/mu.test(workflow)) fail('RELEASE_ACCESS', '指定工具工作流没有 workflow_call 入口。');
-  const checkoutRepository = workflow.match(/^\s*repository:\s*([^\s#]+)\s*$/mu)?.[1];
-  if (checkoutRepository !== release.repository) {
-    fail('RELEASE_ACCESS', '固定工作流的渲染代码仓库与发布元数据不一致；请发布修正后的新提交。');
-  }
+  const action = Buffer.from(file.content, 'base64').toString('utf8');
+  if (!/^\s*using:\s*['"]?composite['"]?\s*$/mu.test(action)) fail('ACTION_ACCESS', '工具仓库 main 上的 action.yml 必须是组合 Action。');
 }
 
-export function profileWorkflow(template, { branch, timezone, repository, ref }) {
-  if (!/^[a-f0-9]{40}$/u.test(ref) || !/^[\w.-]+\/[\w.-]+$/u.test(repository)) fail('RELEASE', '工具发布版本无效。');
-  // JSON strings are also safe YAML scalars. Never insert config into shell commands.
+export function profileWorkflow(template, { branch, timezone, repository }) {
+  if (!repositoryPattern.test(repository)) fail('CONFIG', '工具仓库地址无效。');
+  // JSON 字符串也是安全的 YAML 标量；配置不进入 shell 命令。
   return template.replaceAll('__BRANCH__', JSON.stringify(branch))
     .replaceAll('__TIMEZONE__', JSON.stringify(timezone))
     .replaceAll('__TOOL_REPOSITORY__', repository)
-    .replaceAll('__TOOL_REF__', ref);
+    .replaceAll('__DATA_PATH__', DATA_PATH)
+    .replaceAll('__DISPLAY_CONFIG_PATH__', DISPLAY_CONFIG_PATH)
+    .replaceAll('__WORKFLOW_PATH__', WORKFLOW_PATH);
 }
 
-export function setupDocuments({ repository }, branch, release) {
+export function setupDocuments({ repository }, branch, actionRepository) {
   return {
-    'README-snippet.md': '## 我的 Codex 活动\n\n![Codex 活动](./assets/codex-activity.svg)\n',
-    'README-snippet.en.md': '## My Codex Activity\n\n![Codex Activity](./assets/codex-activity.svg)\n',
+    'README-snippet.md': `## 我的 Codex 活动\n\n![Codex 活动](./${SVG_PATH})\n`,
+    'README-snippet.en.md': `## My Codex Activity\n\n![Codex Activity](./${SVG_PATH})\n`,
     'SETUP.md': [
       '# Profile 接入', '',
       '**简体中文（默认）** | [English](./SETUP.en.md)', '',
       `目标仓库：${repository}；默认分支：${branch}。`, '',
-      '1. 将 [codex-activity.yml](./codex-activity.yml) 放入目标仓库 .github/workflows/。',
-      '2. 将 [README-snippet.md](./README-snippet.md) 中的内容加入 Profile README，然后提交这些接入文件。',
-      '3. 运行 npm run sync；不需要创建空 JSON 或配置仓库 Secrets。', '',
-      `工具引用：${release.repository}@${release.ref}。该提交必须已在公开工具仓库中发布，GitHub 才能执行工作流。`,
-      '升级时重新运行 setup，将生成的新入口替换到 Profile。不要复制 .env。', '',
-      'setup 优先使用工具目录 templates/release.json 的 ref，不会自动使用最新代码。若生成入口仍引用旧 SHA，维护者应先运行 node scripts/release.mjs，提交元数据并将实现和元数据一起推送到公开工具仓库，然后重新 setup。',
-      `核对入口的 uses 和 tool_ref 都引用 ${release.ref}，并包含 data/codex/config.json 触发路径。将入口提交并推送到 Profile 默认分支后，在 Actions → Codex Activity 检查新运行；需要立即重绘可选择 Run workflow。本机生成材料不会自动更新 Profile。`, '',
-      '已有 Profile 首次启用双语和显示配置同步时，须先升级上述工作流入口。之后在本机 .env 设置 ACTIVITY_THEME（github-dark / github-light）、ACTIVITY_LANGUAGE（en / zh-CN），运行 npm run sync 即可应用；默认深色、英文。',
-      'sync 只公开主题和语言，不上传 .env；只改显示配置不会改变统计更新时间。时区变更仍需重新生成并替换工作流入口。', '',
+      `1. 将 [codex-activity.yml](./codex-activity.yml) 放入目标仓库 ${WORKFLOW_PATH}，提交并推送到默认分支。`,
+      '2. 首次接入时，将 [README-snippet.md](./README-snippet.md) 中的内容加入 Profile README。',
+      '3. 回到本机工具目录运行 npm run sync，等待 Profile Actions 生成图片。无需创建空 JSON 或配置仓库 Secrets。', '',
+      `工具引用：${actionRepository}@main。后续兼容更新会在下次 Actions 运行时自动采用，无需再次替换工作流。旧版接入只需按第 1 步迁移一次。`, '',
+      '日常在本机 .env 设置 ACTIVITY_THEME、ACTIVITY_LANGUAGE 后运行 npm run sync；主题和语言之外的本机配置不会上传。修改时区后需重新 setup 并替换工作流。不要复制 .env。',
+      '统计和显示配置都无变化时，不触发新的运行；需要立即重绘可在 Actions → Codex Activity 选择 Run workflow。最后更新时间表示统计上传时间，不是图片重绘时间。', '',
     ].join('\n'),
     'SETUP.en.md': [
       '# Profile integration', '',
       '[简体中文（默认）](./SETUP.md) | **English**', '',
       `Target repository: ${repository}; default branch: ${branch}.`, '',
-      '1. Place [codex-activity.yml](./codex-activity.yml) in .github/workflows/ in the target repository.',
-      '2. Add the contents of [README-snippet.en.md](./README-snippet.en.md) to the Profile README, then commit these integration files.',
-      '3. Run npm run sync; no empty JSON or repository Secrets are needed.', '',
-      `Tool reference: ${release.repository}@${release.ref}. This commit must be published in the public tool repository before GitHub can run the workflow.`,
-      'To upgrade, rerun setup and replace the generated Profile workflow entry. Do not copy .env.', '',
-      'setup prefers ref in templates/release.json in the tool directory; it does not automatically use the latest code. If the generated entry still references an old SHA, maintainers must run node scripts/release.mjs, commit the metadata, push both implementation and metadata to the public tool repository, then rerun setup.',
-      `Check that both uses and tool_ref reference ${release.ref} and that the data/codex/config.json trigger path is present. Commit and push the entry to the Profile default branch, then check the new run in Actions → Codex Activity; choose Run workflow for an immediate redraw. Local generation does not update the Profile automatically.`, '',
-      'Existing Profiles must first upgrade the workflow entry above to enable bilingual charts and display configuration sync. Then set ACTIVITY_THEME (github-dark / github-light) and ACTIVITY_LANGUAGE (en / zh-CN) in your local .env and run npm run sync; defaults are dark and English.',
-      'sync publishes only theme and language, never .env; display-only changes preserve the statistics update time. Timezone changes still require regenerating and replacing the workflow entry.', '',
+      `1. Place [codex-activity.yml](./codex-activity.yml) at ${WORKFLOW_PATH} in the target repository, then commit and push to its default branch.`,
+      '2. For the first integration, add [README-snippet.en.md](./README-snippet.en.md) to the Profile README.',
+      '3. Return to the local tool directory and run npm run sync, then wait for Profile Actions to generate the image. No empty JSON or repository Secrets are needed.', '',
+      `Action reference: ${actionRepository}@main. Later compatible updates are used on the next Actions run without replacing the workflow. Existing integrations need step 1 only once to migrate.`, '',
+      'For everyday use, set ACTIVITY_THEME and ACTIVITY_LANGUAGE in your local .env and run npm run sync; other local settings are not uploaded. Timezone changes require setup and workflow replacement. Do not copy .env.',
+      'If statistics and display settings are unchanged, no new run is triggered. For an immediate redraw, choose Run workflow in Actions → Codex Activity. Last updated means statistics upload time, not image redraw time.', '',
     ].join('\n'),
   };
 }
 
 export async function generateSetup(config, branch, outputDirectory = join(process.cwd(), 'generated')) {
-  const release = await releaseReference();
-  await verifyRelease(release);
+  const repository = await toolRepository();
+  await verifyAction(repository);
   const template = await readFile(join(projectRoot, 'templates', 'profile', 'codex-activity.yml'), 'utf8');
-  const workflow = profileWorkflow(template, { branch, timezone: config.timezone, ...release });
+  const workflow = profileWorkflow(template, { branch, timezone: config.timezone, repository });
+  // 公开检查通过后再生成文件，避免失败时留下看似可用的新入口。
   await mkdir(outputDirectory, { recursive: true });
   await writeFile(join(outputDirectory, 'codex-activity.yml'), workflow);
-  for (const [name, contents] of Object.entries(setupDocuments(config, branch, release))) {
+  for (const [name, contents] of Object.entries(setupDocuments(config, branch, repository))) {
     await writeFile(join(outputDirectory, name), contents);
   }
-  return { release, outputDirectory };
+  return { repository, outputDirectory };
 }

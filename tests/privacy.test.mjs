@@ -9,7 +9,7 @@ import { GitHubClient } from '../src/github.mjs';
 import { safeError } from '../src/errors.mjs';
 import { renderSvg } from '../src/render.mjs';
 import { git } from '../src/git.mjs';
-import { projectRoot, profileWorkflow, setupDocuments, verifyRelease } from '../src/setup.mjs';
+import { projectRoot, profileWorkflow, setupDocuments, toolRepository, verifyAction } from '../src/setup.mjs';
 import { temporary } from './helpers.mjs';
 
 test('privacy: isolate dotenv, whitelist data, suppress upstream errors and exclude secrets', async t => {
@@ -63,12 +63,19 @@ test('privacy: isolate dotenv, whitelist data, suppress upstream errors and excl
   const pkg = JSON.parse(await readFile(join(projectRoot, 'package.json'), 'utf8'));
   assert.ok(pkg.files.includes('.env.example') && !pkg.files.includes('.env') && !pkg.files.includes('*'));
   const template = await readFile(join(projectRoot, 'templates/profile/codex-activity.yml'), 'utf8');
-  const workflow = profileWorkflow(template, { branch: 'main', timezone: config.timezone, repository: 'example/tool', ref: 'a'.repeat(40) });
+  const workflow = profileWorkflow(template, { branch: 'main', timezone: config.timezone, repository: 'example/tool' });
   assert.ok(!workflow.includes(secret) && workflow.includes('timezone: "Asia/Singapore"'));
-  assert.ok(workflow.includes(`@${'a'.repeat(40)}`));
+  // 入口只保留一个工具引用，Action 直接运行自身源码。
+  assert.equal(workflow.match(/uses: example\/tool@main/gu)?.length, 1);
+  assert.ok(!workflow.includes('tool_ref') && !workflow.includes('__'));
   assert.ok(workflow.includes("'data/codex/config.json'"));
-  const release = { repository: 'example/tool', ref: 'a'.repeat(40) };
-  const documents = setupDocuments(config, 'main', release);
+  const action = await readFile(join(projectRoot, 'action.yml'), 'utf8');
+  assert.equal((action.match(/uses: actions\/checkout@/gu) ?? []).length, 1);
+  assert.ok(action.includes('$GITHUB_ACTION_PATH/src/ci.mjs') && action.includes('fetch-depth: 0'));
+  assert.ok(!action.includes('tool_ref') && !action.includes('ACTIVITY_THEME'));
+  assert.equal(`https://github.com/${await toolRepository()}.git`, pkg.repository.url);
+  assert.ok(pkg.files.includes('action.yml') && !pkg.files.includes('scripts/release.mjs'));
+  const documents = setupDocuments(config, 'main', 'example/tool');
   assert.deepEqual(Object.keys(documents).sort(), ['README-snippet.en.md', 'README-snippet.md', 'SETUP.en.md', 'SETUP.md']);
   for (const contents of Object.values(documents)) {
     assert.ok(!contents.includes(secret) && !contents.includes(email));
@@ -79,18 +86,20 @@ test('privacy: isolate dotenv, whitelist data, suppress upstream errors and excl
     assert.ok(documents[`README-snippet${locale}.md`].startsWith(`## ${title}\n`));
     assert.ok(documents[`README-snippet${locale}.md`].includes('(./assets/codex-activity.svg)'));
     assert.ok(documents[`SETUP${locale}.md`].includes(`(./README-snippet${locale}.md)`));
-    assert.ok(documents[`SETUP${locale}.md`].includes(`${release.repository}@${release.ref}`));
+    assert.ok(documents[`SETUP${locale}.md`].includes('example/tool@main'));
     assert.ok(documents[`SETUP${locale}.md`].includes(config.repository));
   }
-  let source = 'on:\n  workflow_call:\njobs:\n  render:\n    repository: example/tool\n';
+  let source = action;
   const fetchPublic = async (url, options) => {
     assert.equal(options.headers.Authorization, undefined);
+    assert.equal(options.redirect, 'error');
+    assert.ok(url === 'https://api.github.com/repos/example/tool' || url === 'https://api.github.com/repos/example/tool/contents/action.yml?ref=main');
     return new Response(JSON.stringify(url.includes('/contents/')
       ? { type: 'file', encoding: 'base64', content: Buffer.from(source).toString('base64') }
       : { private: false, visibility: 'public' }));
   };
-  await verifyRelease(release, { fetchImpl: fetchPublic });
-  source = source.replace('example/tool', 'example/wrong');
-  await assert.rejects(verifyRelease(release, { fetchImpl: fetchPublic }), error => error.code === 'RELEASE_ACCESS');
-  await assert.rejects(verifyRelease(release, { fetchImpl: async () => new Response('{}', { status: 404 }) }), error => error.code === 'RELEASE_ACCESS');
+  await verifyAction('example/tool', { fetchImpl: fetchPublic });
+  source = 'runs:\n  using: node24\n';
+  await assert.rejects(verifyAction('example/tool', { fetchImpl: fetchPublic }), error => error.code === 'ACTION_ACCESS');
+  await assert.rejects(verifyAction('example/tool', { fetchImpl: async () => new Response('{}', { status: 404 }) }), error => error.code === 'ACTION_ACCESS');
 });

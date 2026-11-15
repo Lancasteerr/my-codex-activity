@@ -4,9 +4,9 @@ on:
   push:
     branches: [__BRANCH__]
     paths:
-      - 'data/codex/usage.json'
-      - 'data/codex/config.json'
-      - '.github/workflows/codex-activity.yml'
+      - '__DATA_PATH__'
+      - '__DISPLAY_CONFIG_PATH__'
+      - '__WORKFLOW_PATH__'
   schedule:
     - cron: '17 0 * * *'
       timezone: __TIMEZONE__
@@ -15,10 +15,16 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: codex-activity-${{ github.repository }}
+  cancel-in-progress: false
+
 jobs:
   render:
-    uses: __TOOL_REPOSITORY__/.github/workflows/render.yml@__TOOL_REF__
-    with:
-      tool_ref: '__TOOL_REF__'
-      timezone: __TIMEZONE__
-      theme: github-dark
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: __TOOL_REPOSITORY__@main
+        with:
+          timezone: __TIMEZONE__

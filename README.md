@@ -43,7 +43,7 @@ npm run sync
 
 无需提前创建统计 JSON，无需配置 GitHub Actions Secrets，无需把 Profile 仓库克隆到本机。工具本身无需 `npm install`；npm scripts 只使用 Node 内置模块。
 
-**首次发布要求**：生成入口会固定工具的完整提交 SHA。该提交必须先推送到公开工具仓库，远程工作流才能调用。当前上游仓库名是 `Lancasteerr/codex-activity`；维护者若使用其他名称，应同时修改 package.json 与可复用工作流的工具 checkout 仓库，再准备发布。
+**首次发布要求**：生成入口会固定工具的完整提交 SHA。该提交必须先推送到公开工具仓库，远程工作流才能调用。当前上游仓库名是 `Lancasteerr/my-codex-activity`；维护者若使用其他名称，应同时修改 package.json 与可复用工作流的工具 checkout 仓库，再准备发布。setup 会匿名验证仓库公开、指定提交存在、该提交包含 workflow_call 入口且内部 checkout 仓库一致，验证失败时不会生成新的接入文件。
 
 ## 配置与命令
 

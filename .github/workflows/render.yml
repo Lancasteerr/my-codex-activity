@@ -47,7 +47,7 @@ jobs:
       - name: Checkout matching renderer
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          repository: Lancasteerr/codex-activity
+          repository: Lancasteerr/my-codex-activity
           ref: ${{ inputs.tool_ref }}
           path: tool
           persist-credentials: false

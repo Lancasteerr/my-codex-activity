@@ -14,5 +14,5 @@
     "render:example": "node scripts/example.mjs"
   },
   "files": ["src/", "scripts/release.mjs", "templates/", "examples/", ".env.example", "README.md", "LICENSE"],
-  "repository": { "type": "git", "url": "https://github.com/Lancasteerr/codex-activity.git" }
+  "repository": { "type": "git", "url": "https://github.com/Lancasteerr/my-codex-activity.git" }
 }

@@ -9,7 +9,7 @@ import { GitHubClient } from '../src/github.mjs';
 import { safeError } from '../src/errors.mjs';
 import { renderSvg } from '../src/render.mjs';
 import { git } from '../src/git.mjs';
-import { projectRoot, profileWorkflow } from '../src/setup.mjs';
+import { projectRoot, profileWorkflow, verifyRelease } from '../src/setup.mjs';
 import { temporary } from './helpers.mjs';
 
 test('privacy: isolate dotenv, whitelist data, suppress upstream errors and exclude secrets', async t => {
@@ -48,4 +48,16 @@ test('privacy: isolate dotenv, whitelist data, suppress upstream errors and excl
   const workflow = profileWorkflow(template, { branch: 'main', timezone: config.timezone, repository: 'example/tool', ref: 'a'.repeat(40) });
   assert.ok(!workflow.includes(secret) && workflow.includes('timezone: "Asia/Singapore"'));
   assert.ok(workflow.includes(`@${'a'.repeat(40)}`));
+  const release = { repository: 'example/tool', ref: 'a'.repeat(40) };
+  let source = 'on:\n  workflow_call:\njobs:\n  render:\n    repository: example/tool\n';
+  const fetchPublic = async (url, options) => {
+    assert.equal(options.headers.Authorization, undefined);
+    return new Response(JSON.stringify(url.includes('/contents/')
+      ? { type: 'file', encoding: 'base64', content: Buffer.from(source).toString('base64') }
+      : { private: false, visibility: 'public' }));
+  };
+  await verifyRelease(release, { fetchImpl: fetchPublic });
+  source = source.replace('example/tool', 'example/wrong');
+  await assert.rejects(verifyRelease(release, { fetchImpl: fetchPublic }), error => error.code === 'RELEASE_ACCESS');
+  await assert.rejects(verifyRelease(release, { fetchImpl: async () => new Response('{}', { status: 404 }) }), error => error.code === 'RELEASE_ACCESS');
 });

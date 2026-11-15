@@ -27,7 +27,7 @@ npm run sync -- --env-file C:\private\codex-activity.env
 
 | Command | Behavior |
 | --- | --- |
-| `npm run setup` | Checks Codex statistics and repository access, verifies the public tool revision, and generates files in `generated/`; does not change the remote repository or `.env` |
+| `npm run setup` | Checks Codex statistics and repository access, checks the public Action, and generates files in `generated/`; does not change the remote repository or `.env` |
 | `npm run status` | Checks collection and GitHub read access, showing the last upload time; no remote writes |
 | `npm run sync` | Syncs statistics history, then theme and language; uploads each file only when changed |
 | `node src/cli.mjs --help` | Shows command help without configuration or network access |
@@ -46,39 +46,21 @@ Only manual synchronization from one computer and one account is supported. Ther
 
 ## Upgrading the scripts
 
-Upgrade the local scripts, release pointer, and Profile workflow together. `setup` prefers `ref` in `templates/release.json`; it neither chooses the newest commit automatically nor uploads files from `generated/` to the Profile.
+Existing integrations need a one-time migration:
 
-1. Obtain the maintainer's updated release in the local tool directory. For a Git installation, run the following; for a source package, replace it with the updated package while keeping your own `.env`:
+1. Obtain the updated local tool. For a Git installation, run `git pull --ff-only`; for a source package, replace it with the new package while keeping your own `.env`.
+2. Run `npm run setup`. Fully replace `.github/workflows/codex-activity.yml` in the **Profile repository** with `generated/codex-activity.yml`, then commit and push to the default branch. The new entry references a single `<tool-repository>@main` Action.
+3. Run `npm run sync` in the tool directory and check **Actions → Codex Activity** in the Profile repository. A changed workflow entry also triggers a redraw itself.
 
-   ```powershell
-   git pull --ff-only
-   Get-Content templates/release.json
-   ```
+After migration:
 
-   Tool maintainers must first complete the [release procedure](./development.en.md#release-procedure): commit the implementation, run `node scripts/release.mjs`, commit the metadata, and push to the public tool repository. `git commit` saves locally only; `ahead` in `git status -sb` means commits remain unpushed. Regular users should obtain a maintainer-prepared release and do not need to run the release script themselves.
+- **Renderer updates**: maintainers push compatible code to the tool repository's `main`; the next Actions run adopts it without `setup`. A tool repository push does not immediately trigger Profile rendering.
+- **Local script updates**: run `git pull --ff-only` for a Git installation, or replace the source package while keeping `.env`.
+- **Theme or language changes**: edit `.env` and run `npm run sync`.
+- **Timezone changes**: rerun `setup`, then replace and commit the Profile workflow so the daily schedule and display timezone change together.
+- **Immediate redraw**: choose `Run workflow` in Profile Actions. When statistics and settings are unchanged, `sync` makes no commit and triggers no new run.
 
-2. Set the desired theme and language in `.env`, for example `ACTIVITY_THEME=github-dark` and `ACTIVITY_LANGUAGE=zh-CN`. Regenerate and inspect the integration files:
-
-   ```powershell
-   npm run setup
-   Select-String -Path generated/codex-activity.yml -Pattern 'uses:|tool_ref:|data/codex/config.json'
-   ```
-
-   The full SHA after `@` in `uses` and the `tool_ref` value must both match `ref` in `templates/release.json`. That revision must contain the desired feature and be publicly readable on GitHub. Display configuration support also requires the `data/codex/config.json` trigger path. If the SHA is still old, the maintainer must update release metadata; repeatedly copying the same old entry will not upgrade the renderer.
-
-3. Fully replace `.github/workflows/codex-activity.yml` in the **Profile repository** with the newly generated `generated/codex-activity.yml`, then commit and push to the Profile's default branch. Alternatively, edit and commit the file on GitHub. The tool and Profile repositories are separate; updating the former does not update the latter. Inspect the final file on GitHub to verify the SHA and trigger path, rather than checking only the local generated file.
-
-4. Return to the local tool directory and run:
-
-   ```powershell
-   npm run sync
-   ```
-
-   A changed workflow entry triggers a redraw. `sync` also triggers a redraw when statistics or display settings change. If the replacement entry, statistics, and settings are all unchanged, there is no new commit or run.
-
-5. In the Profile repository, open **Actions → Codex Activity** and inspect the new run associated with the upgrade commit. For an immediate redraw, choose **Run workflow** on the default branch. If no run appears, check that the remote workflow actually changed and was committed to the default branch. If a successful run still produces the old chart, inspect its actual tool SHA, then the remote `data/codex/config.json` and `assets/codex-activity.svg`. If the remote SVG changed but the README still shows the old image, refresh and allow time for the image cache to update.
-
-After upgrading, everyday theme and language changes require only editing `.env` and running `npm run sync`. Renderer upgrades and timezone changes still require regenerating and replacing the workflow entry.
+Upload success means the JSON was committed; Actions still needs to generate the image. If the remote SVG changed but the Profile shows the old image, refresh and allow time for the image cache to update. `Last updated` means statistics upload time, not redraw time.
 
 ## Data and history
 
@@ -105,9 +87,9 @@ ACTIVITY_THEME=github-light
 ACTIVITY_LANGUAGE=zh-CN
 ```
 
-Even with unchanged statistics, `sync` separately compares and uploads changed display settings, triggering an Actions redraw. If neither file changes, nothing is committed. Actions prefers `data/codex/config.json`; if absent, it uses the workflow's `theme` and English. Invalid configuration stops publication. The update time still comes from the statistics file's commit.
+Even with unchanged statistics, `sync` separately compares and uploads changed display settings, triggering an Actions redraw. If neither file changes, nothing is committed. Actions uses `data/codex/config.json`; if absent, it uses the default dark theme and English. Invalid configuration stops publication. The update time still comes from the statistics file's commit.
 
-For an existing Profile, follow [Upgrading the scripts](#upgrading-the-scripts) to verify the release, replace the entry, and check the remote result. The workflow and renderer are pinned to a full commit SHA; updating local code alone does not upgrade the remote renderer. Later theme and language changes do not require `setup`. Timezone changes still require regenerating and replacing the workflow entry.
+After the one-time migration in [Upgrading the scripts](#upgrading-the-scripts), rendering follows the tool repository's `main`. Theme and language changes do not require `setup`. Timezone changes still require regenerating and replacing the workflow entry.
 
 ## Failures and recovery
 
@@ -123,7 +105,7 @@ For an existing Profile, follow [Upgrading the scripts](#upgrading-the-scripts) 
 | JSON uploaded but chart failed | Run Codex Activity manually in Profile Actions, or wait for the next daily run |
 | Statistics sync completed but display configuration sync failed | Fix network or permission issues and rerun `sync`; completed statistics uploads are not rolled back |
 | Invalid display configuration file | Correct `data/codex/config.json` to a valid `theme` and `language` object, or delete it and rerun `sync` to recreate it |
-| Public revision validation fails or checkout cannot find SHA | Ensure the correct commit is pushed to the public tool repository, then rerun `setup` to update the entry |
+| Public Action check fails | Ensure the tool repository is public and `action.yml` is published on `main`, then rerun `setup` |
 | Daily workflow delayed or disabled | Check and re-enable it in Actions, or run it manually |
 
 On Windows, cache is stored at `%LOCALAPPDATA%\codex-activity\<repository hash>\`, containing sanitized statistics and a sync lock, without tokens. Before the first successful upload, losing both cache and source history makes unarchived data unrecoverable. Do not treat this cache as disposable clutter.

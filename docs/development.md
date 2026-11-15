@@ -10,10 +10,11 @@
 ├── docs/                         # 按主题配对的中英文文档
 ├── src/                          # CLI、采集、上传和渲染实现
 ├── tests/                        # Node 内置测试与合成数据助手
-├── scripts/                      # 合成示例生成、发布元数据准备
-├── templates/                    # Profile 工作流模板、固定发布信息
+├── scripts/                      # 合成示例生成
+├── templates/                    # Profile 工作流模板
 ├── examples/                     # 文档引用的中英文深色与浅色 SVG 示例
-├── .github/workflows/             # CI 检查与可复用渲染工作流
+├── .github/workflows/             # CI 检查工作流
+├── action.yml                    # 跟随 main 的组合 Action 入口
 ├── .env.example                  # 不含凭据的双语配置样例
 ├── package.json                  # 命令、Node 版本和发布白名单
 └── LICENSE                       # MIT 许可证原文
@@ -24,11 +25,12 @@
 | 模块 | 职责 |
 | --- | --- |
 | `src/cli.mjs` | `setup`、`status`、`sync` 命令编排 |
-| `src/config.mjs`、`src/errors.mjs` | 配置白名单、路径常量、安全错误信息 |
+| `src/chart-options.mjs`、`src/config.mjs` | 主题、语言、默认值、配置校验及路径常量 |
+| `src/errors.mjs` | 安全错误信息 |
 | `src/collector.mjs` | 发现 Codex，通过 App Server 读取统计 |
 | `src/data.mjs`、`src/state.mjs` | 公开数据规范化、历史合并、待上传缓存和进程锁 |
 | `src/github.mjs`、`src/git.mjs` | GitHub Contents API、冲突恢复、Git 子进程封装 |
-| `src/setup.mjs` | 固定版本验证、Profile 工作流与双语材料生成 |
+| `src/setup.mjs` | 公开 Action 检查、Profile 工作流与双语材料生成 |
 | `src/render.mjs`、`src/ci.mjs` | SVG 渲染、上传时间查询、Actions 内发布 |
 
 数据流：本机 Codex → 白名单统计 → 合并本地缓存和远程历史 → Profile JSON → Actions → Profile SVG。定时 Actions 不连接本机或 Codex。
@@ -60,43 +62,25 @@ npm pack --dry-run
 | `node_modules/`、`.cache/`、`coverage/`、`dist/`、日志 | 生成或临时文件，默认忽略；确认无待用内容后可清理 |
 | 用户数据目录中的待上传缓存 | 保留；可能包含尚未上传的历史，不作为普通缓存清理 |
 
-npm 使用 `package.json` 的 `files` 白名单，只包含运行源码、发布准备脚本、模板、示例、双语文档、`.env.example` 和许可证。测试、IDE 设置、本机接入材料和真实 `.env` 不进入包。
+npm 使用 `package.json` 的 `files` 白名单，只包含运行源码、Action 入口、模板、示例、双语文档、`.env.example` 和许可证。测试、IDE 设置、本机接入材料和真实 `.env` 不进入包。
 
 ## 发布流程
 
-当前工具仓库为 `Lancasteerr/my-codex-activity`。若更换仓库，需同时修改 `package.json` 中的 repository 和 `.github/workflows/render.yml` 中渲染代码的 checkout 仓库，再准备发布。
+工具仓库地址只在 `package.json` 的 `repository` 中维护。`setup` 从这里生成 `<工具仓库>@main`，Action 直接运行自身代码，无需维护第二个源码仓库地址。
 
-1. 完成验证并提交实现和文档，确保工作区干净。
-2. 在干净工作区运行发布脚本，将 `templates/release.json` 的 `ref` 固定到刚提交的实现版本，再提交元数据：
+1. 执行开发验证，提交实现和对应文档。
+2. 将兼容更新推送到公开工具仓库的 `main`；`action.yml` 和运行源码随同一个提交发布。
+3. 已迁移的 Profile 在下一次 Actions 运行自动使用更新，不需要额外的发布指针或元数据提交。首次发布 Action 后，旧接入按[升级到新版脚本](./usage.md#升级到新版脚本)替换一次工作流。
+4. 如需分发源码包，使用 `npm pack`；发布 npm 包时按需更新包版本。包版本不参与 Actions 选版。
 
-   ```powershell
-   node scripts/release.mjs
-   git add templates/release.json
-   git commit -m "chore: pin release source revision"
-   npm pack --dry-run
-   ```
+本地修改默认在 `master` 分支完成；发布目标仍是远程 `main`。例如确认改动后执行 `git push origin master:main`；推送应为正常快进更新，不强推。
 
-   `node scripts/release.mjs` 只更新本机元数据，不提交、不推送，也不更新 Profile。元数据提交的 SHA 与其中记录的实现 SHA 不同是正常的；应确认被引用的实现包含所需功能。
-
-3. 检查打包清单，需要本地包时执行 `npm pack`。将实现提交和元数据提交一起推送到公开工具仓库；当前默认分支为 `main`：
-
-   ```powershell
-   git push origin main
-   git ls-remote origin refs/heads/main
-   ```
-
-   对照 `git log -1 --format=%H`，确认远程分支已收到最新提交。`git status -sb` 仍显示 `ahead` 时，提交尚未推送。若分发 npm 包或源码包，也需重新打包并发布，避免用户取得旧元数据。发布脚本不会自动执行这些操作。
-4. 使用 `setup` 前，必须先将引用的实现提交推送到公开工具仓库。`setup` 会匿名检查仓库公开性、固定提交内的 `workflow_call` 入口以及内部 checkout 仓库是否一致；失败时不生成新的材料。
-5. 按[升级到新版脚本](./usage.md#升级到新版脚本)运行 `setup`，核对生成入口的 `uses` 和 `tool_ref` 都等于发布元数据中的 `ref`，再替换 Profile 工作流、提交并推送到默认分支。在 Profile Actions 确认升级提交触发了新运行，不能仅以本机生成成功作为升级完成的依据。
-
-`templates/release.json` 指向完整实现提交 SHA，供没有 `.git` 的包安装目录使用。有合法元数据时 `setup` 优先使用该固定版本，不会自动切换到工作区最新更改。元数据不可用时才尝试当前 Git 提交，不使用可变分支或标签作为版本引用。
-
-例如，代码已包含中文渲染而 `ref` 仍指向不支持语言配置的旧提交时，`setup` 可以成功，却仍生成旧渲染器引用。必须先更新并发布元数据，再重新 `setup`；只推送实现或修改文档不会更新这个指针。
+跟随 `main` 意味着兼容更新会自动生效，因此提交前保持现有测试和 Action 输入兼容。旧工作流引用的历史提交仍可访问。迁移不会重写统计历史，也不会改变上传时间语义。
 
 ## 参考
 
 - [Codex App Server 与 account/usage/read](https://learn.chatgpt.com/docs/app-server)
 - [GitHub Contents API 与细粒度 Token 权限](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents)
-- [GitHub 可复用工作流](https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows)
+- [GitHub 组合 Action](https://docs.github.com/en/actions/reference/workflows-and-actions/metadata-syntax#runs-for-composite-actions)
 - [GITHUB_TOKEN 及触发行为](https://docs.github.com/en/actions/concepts/security/github_token)
 - [GitHub schedule 行为与限制](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)

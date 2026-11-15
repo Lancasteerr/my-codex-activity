@@ -12,7 +12,7 @@
 
 ## 采集与上传边界
 
-GitHub 上传通过原生 `fetch` 访问官方 API，拒绝 HTTP 重定向。Codex 采集使用运行时自己的登录状态；工具不读取、复制或上传 `auth.json`，不创建对话或运行模型。验证公开工具版本时，不发送 Profile Token。
+GitHub 上传通过原生 `fetch` 访问官方 API，拒绝 HTTP 重定向。Codex 采集使用运行时自己的登录状态；工具不读取、复制或上传 `auth.json`，不创建对话或运行模型。检查公开 Action 时，不发送 Profile Token。
 
 公开数据根据字段白名单重新构造，仅保留协议版本、来源标记、累计 Token、连续天数和每日 Token。独立的 `data/codex/config.json` 仅公开主题 `theme` 和语言 `language`，不上传整个 `.env`。原始账户、邮箱、Cookie、API key 和令牌字段不会被复制。日志不输出原始响应、请求头、配置对象或上游异常。
 

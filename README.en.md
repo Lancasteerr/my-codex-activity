@@ -12,7 +12,7 @@ The preview uses fixed synthetic data, with no real account information. A [ligh
 
 You need Windows, Node.js **24.10+**, Git, and a signed-in Codex runtime supporting `account/usage/read`. Your Profile repository must already exist with at least one commit and a default branch. GitHub CLI and `npm install` are unnecessary.
 
-1. Clone the tool repository or extract a source package with release metadata. In the tool directory, run:
+1. Clone the tool repository or extract a source package. In the tool directory, run:
 
    ```powershell
    Copy-Item .env.example .env
@@ -45,9 +45,7 @@ You need Windows, Node.js **24.10+**, Git, and a signed-in Codex runtime support
 
 No initial statistics JSON, Actions Secrets, or local clone of the Profile repository is needed. Wait for Profile Actions to generate the chart after upload. Run `npm run status` to check status.
 
-`setup` anonymously checks that the pinned revision is published in the public tool repository. Unpublished revisions cannot generate integration files. Maintainers should read the [release procedure](./docs/development.en.md#release-procedure) first.
-
-For an existing integration, follow [Upgrading the scripts](./docs/usage.en.md#upgrading-the-scripts). `setup` prefers the revision pinned in `templates/release.json`; committing new code or rerunning `setup` does not automatically update that pointer.
+`setup` anonymously checks the Action on the public tool repository's `main` branch. Existing integrations need a one-time workflow replacement described in [Upgrading the scripts](./docs/usage.en.md#upgrading-the-scripts). Rendering then follows `main`, adopting updates on the next Actions run. For everyday use, run `npm run sync`.
 
 ## Documentation
 
@@ -57,7 +55,7 @@ Chinese is the default language. Matching `*.en.md` files contain English versio
 | --- | --- | --- |
 | [Usage](./docs/usage.en.md) | Configuration, commands, data semantics, time, recovery | [使用指南](./docs/usage.md) |
 | [Privacy and credentials](./docs/security.en.md) | Public fields, token scope, local cache | [隐私与凭据](./docs/security.md) |
-| [Development and releases](./docs/development.en.md) | Layout, validation, cleanup rules, pinned releases | [开发与发布](./docs/development.md) |
+| [Development and releases](./docs/development.en.md) | Layout, validation, cleanup rules, publishing | [开发与发布](./docs/development.md) |
 
 ## Development checks
 

@@ -12,7 +12,7 @@ Do not add `.env` to the Profile repository, bypass ignore rules with `git add -
 
 ## Collection and upload boundaries
 
-GitHub uploads use native `fetch` against the official API and reject HTTP redirects. Codex collection uses the runtime's own login state. The tool does not read, copy, or upload `auth.json`, create conversations, or run models. Public tool revision verification does not send the Profile token.
+GitHub uploads use native `fetch` against the official API and reject HTTP redirects. Codex collection uses the runtime's own login state. The tool does not read, copy, or upload `auth.json`, create conversations, or run models. Public Action checks do not send the Profile token.
 
 Public data is reconstructed from an explicit field allowlist: schema version, source marker, lifetime tokens, streak days, and daily tokens. The separate `data/codex/config.json` publishes only `theme` and `language`, never the whole `.env`. Raw accounts, email addresses, cookies, API keys, and token fields are not copied. Logs do not expose raw responses, request headers, configuration objects, or upstream exceptions.
 

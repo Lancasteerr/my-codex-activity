@@ -12,7 +12,7 @@
 
 需要 Windows、Node.js **24.10+**、Git，以及已登录且支持 `account/usage/read` 的 Codex 运行时。目标 Profile 仓库须已存在，并至少有一次提交和默认分支。无需 GitHub CLI，也无需 `npm install`。
 
-1. 克隆工具仓库或解压带版本元数据的源码包，在工具目录执行：
+1. 克隆工具仓库或解压源码包，在工具目录执行：
 
    ```powershell
    Copy-Item .env.example .env
@@ -45,9 +45,7 @@
 
 无需提前创建统计 JSON、配置 Actions Secrets 或克隆 Profile 仓库到本机。上传后等待 Profile Actions 生成图表；可以用 `npm run status` 检查状态。
 
-`setup` 会匿名检查固定版本是否已发布到公开工具仓库；未发布的版本不能生成接入材料。维护者请先阅读[发布流程](./docs/development.md#发布流程)。
-
-已有接入请按[升级到新版脚本](./docs/usage.md#升级到新版脚本)操作。`setup` 优先使用 `templates/release.json` 固定的版本；仅提交新代码或重复运行 `setup` 不会自动更新这个指针。
+`setup` 会匿名检查公开工具仓库 `main` 上的 Action。已有接入按[升级到新版脚本](./docs/usage.md#升级到新版脚本)替换一次工作流；此后渲染代码自动跟随 `main`，在下次 Actions 运行时采用更新。日常只需运行 `npm run sync`。
 
 ## 文档导航
 
@@ -57,7 +55,7 @@
 | --- | --- | --- |
 | [使用指南](./docs/usage.md) | 配置、命令、数据语义、时间与故障恢复 | [Usage](./docs/usage.en.md) |
 | [隐私与凭据](./docs/security.md) | 公开字段、Token 边界、本地缓存 | [Privacy and credentials](./docs/security.en.md) |
-| [开发与发布](./docs/development.md) | 项目结构、验证、文件清理规则、固定版本发布 | [Development and releases](./docs/development.en.md) |
+| [开发与发布](./docs/development.md) | 项目结构、验证、文件清理规则、发布方式 | [Development and releases](./docs/development.en.md) |
 
 ## 开发验证
 

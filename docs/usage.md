@@ -27,7 +27,7 @@ npm run sync -- --env-file C:\private\codex-activity.env
 
 | 命令 | 行为 |
 | --- | --- |
-| `npm run setup` | 检查 Codex 统计和仓库访问，验证公开工具版本，在 `generated/` 生成材料；不修改远程仓库或 `.env` |
+| `npm run setup` | 检查 Codex 统计和仓库访问，检查公开 Action，在 `generated/` 生成材料；不修改远程仓库或 `.env` |
 | `npm run status` | 检查采集与 GitHub 读取权限，显示最近上传时间；不写远程内容 |
 | `npm run sync` | 同步统计历史，再同步主题和语言；各文件有变化才上传 |
 | `node src/cli.mjs --help` | 显示命令帮助，无需配置或网络访问 |
@@ -46,39 +46,21 @@ npm run sync -- --env-file C:\private\codex-activity.env
 
 ## 升级到新版脚本
 
-本机脚本、发布版本指针和 Profile 工作流需要一起升级。`setup` 优先读取 `templates/release.json` 的 `ref`，不会自动选择最新提交，也不会把 `generated/` 中的文件上传到 Profile。
+旧版接入只需迁移一次：
 
-1. 在本机工具目录获取维护者发布的新版。Git 安装执行下列命令；源码包安装则换用新版包，并保留自己的 `.env`：
+1. 在本机工具目录获取新版；Git 安装运行 `git pull --ff-only`，源码包安装换用新版包，并保留自己的 `.env`。
+2. 运行 `npm run setup`，将新生成的 `generated/codex-activity.yml` 完整替换到 **Profile 仓库**的 `.github/workflows/codex-activity.yml`，提交并推送到默认分支。新入口只引用一个 `<工具仓库>@main` Action。
+3. 在工具目录运行 `npm run sync`，到 Profile 的 **Actions → Codex Activity** 查看结果。工作流入口变更本身也会触发一次重绘。
 
-   ```powershell
-   git pull --ff-only
-   Get-Content templates/release.json
-   ```
+迁移完成后：
 
-   如果你是工具维护者，先完成[发布流程](./development.md#发布流程)：提交实现、运行 `node scripts/release.mjs`、提交元数据，再推送到公开工具仓库。`git commit` 只保存到本地；`git status -sb` 显示 `ahead` 表示仍有未推送提交。普通使用者应获取维护者准备好的版本，无需自行运行发布脚本。
+- **渲染代码更新**：维护者推送兼容代码到工具仓库 `main`，下一次 Actions 运行自动采用，无需重新 `setup`。推送工具仓库本身不会立即触发 Profile 重绘。
+- **本机脚本更新**：Git 安装运行 `git pull --ff-only`；源码包安装换用新版包，保留 `.env`。
+- **主题、语言变更**：修改 `.env` 后运行 `npm run sync`。
+- **时区变更**：重新 `setup`，替换并提交 Profile 工作流，使每日调度和显示时区一起更新。
+- **立即重绘**：在 Profile Actions 选择 `Run workflow`。统计和配置都无变化时，`sync` 不提交，也不触发新运行。
 
-2. 在 `.env` 设置需要的主题和语言，例如 `ACTIVITY_THEME=github-dark`、`ACTIVITY_LANGUAGE=zh-CN`。然后重新生成接入材料并检查：
-
-   ```powershell
-   npm run setup
-   Select-String -Path generated/codex-activity.yml -Pattern 'uses:|tool_ref:|data/codex/config.json'
-   ```
-
-   `uses` 中 `@` 后的完整 SHA 与 `tool_ref` 必须都等于 `templates/release.json` 的 `ref`，且该提交必须包含需要的新功能并已在 GitHub 公开可读。启用本次显示配置功能还需看到 `data/codex/config.json` 触发路径。若 SHA 仍是旧版，维护者需要更新发布元数据；不要反复复制同一个旧版本入口。
-
-3. 用新生成的 `generated/codex-activity.yml` 完整替换 **Profile 仓库**中的 `.github/workflows/codex-activity.yml`，提交并推送到 Profile 默认分支。也可在 GitHub 网页编辑该文件并提交。工具仓库和 Profile 仓库是两个不同的仓库，更新前者不会自动修改后者。到 GitHub 查看最终文件，确认上述 SHA 和触发路径，而不只查看本机生成文件。
-
-4. 回到本机工具目录执行：
-
-   ```powershell
-   npm run sync
-   ```
-
-   工作流入口变更提交会触发一次重绘；`sync` 也会在统计或显示配置有变化时触发重绘。如果替换后的入口完全相同、统计和配置也都没变化，就没有新的提交，不会产生新的运行。
-
-5. 在 Profile 仓库打开 **Actions → Codex Activity**，查看与升级提交对应的新运行及其结果。需要立即重绘时选择 **Run workflow**，分支选默认分支。若没有新运行，先检查远程工作流是否真的改变、是否提交到了默认分支；若运行成功仍是旧图片，检查运行实际引用的工具 SHA，再检查远程 `data/codex/config.json` 和 `assets/codex-activity.svg`。远程 SVG 已变而 README 仍旧时，可刷新页面并稍候图片缓存更新。
-
-升级完成后，日常只需修改 `.env` 的主题或语言并运行 `npm run sync`。只有升级渲染代码或修改时区时才需要重新生成、替换工作流。
+上传成功表示 JSON 已提交，图片需等待 Actions 生成。若远程 SVG 已更新而简介页仍显示旧图，可刷新并稍候图片缓存更新。`最后更新` 表示统计上传时间，不是重绘时间。
 
 ## 数据与历史
 
@@ -105,9 +87,9 @@ ACTIVITY_THEME=github-light
 ACTIVITY_LANGUAGE=zh-CN
 ```
 
-即使统计无变化，`sync` 也会单独比较和上传显示配置，并触发 Actions 重绘；两者都无变化时不提交。Actions 优先使用 `data/codex/config.json`；文件缺失时沿用工作流的 `theme` 并使用英文，配置无效则停止发布。更新时间仍取统计文件的提交时间。
+即使统计无变化，`sync` 也会单独比较和上传显示配置，并触发 Actions 重绘；两者都无变化时不提交。Actions 使用 `data/codex/config.json`；文件缺失时使用默认的深色、英文，配置无效则停止发布。更新时间仍取统计文件的提交时间。
 
-已有 Profile 首次升级请按[升级到新版脚本](#升级到新版脚本)完成版本核对、入口替换和远程验证。工作流和渲染器固定为完整提交 SHA，仅更新本机代码无法升级远程渲染器。完成此次升级后，修改主题、语言无需重新 `setup`。时区仍需重新 `setup` 并替换入口。
+已有 Profile 按[升级到新版脚本](#升级到新版脚本)迁移一次后，渲染代码自动跟随工具仓库 `main`。修改主题、语言无需重新 `setup`；时区仍需重新生成并替换入口。
 
 ## 失败与恢复
 
@@ -123,7 +105,7 @@ ACTIVITY_LANGUAGE=zh-CN
 | JSON 已上传但图表失败 | 到 Profile Actions 手动运行 Codex Activity，或等待下次每日任务 |
 | 统计同步已完成，但显示配置同步失败 | 修复网络或权限问题，再运行 `sync`；已完成的统计上传不会回滚 |
 | 显示配置文件无效 | 修正 `data/codex/config.json` 为有效的 `theme`、`language` 对象，或删除该文件后运行 `sync` 重建 |
-| 公开版本验证失败或 checkout 找不到 SHA | 确认正确提交已推送到公开工具仓库，再运行 `setup` 更新入口 |
+| 公开 Action 检查失败 | 确认工具仓库公开且 `main` 已发布 `action.yml`，再运行 `setup` |
 | 每日任务延迟或停用 | 到 Actions 检查并重新启用，或手动运行 |
 
 Windows 缓存位于 `%LOCALAPPDATA%\codex-activity\<仓库散列>\`，只保存清洗后的统计和同步锁，没有 Token。第一次成功上传前，若缓存和源端历史都丢失，工具无法恢复从未归档的数据。不要把该缓存作为无用文件清理。

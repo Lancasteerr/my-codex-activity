@@ -12,6 +12,7 @@ generated/
 *.log
 *.tgz
 _tool/
+AGENTS.md
 
 # 本机 IDE 设置 / Local IDE settings
 /.idea/

@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+node_modules/
+.cache/
+coverage/
+dist/
+generated/
+*.log
+*.tgz
+_tool/

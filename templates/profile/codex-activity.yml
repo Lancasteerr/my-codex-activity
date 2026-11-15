@@ -1,0 +1,23 @@
+name: Codex Activity
+
+on:
+  push:
+    branches: [__BRANCH__]
+    paths:
+      - 'data/codex/usage.json'
+      - '.github/workflows/codex-activity.yml'
+  schedule:
+    - cron: '17 0 * * *'
+      timezone: __TIMEZONE__
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    uses: __TOOL_REPOSITORY__/.github/workflows/render.yml@__TOOL_REF__
+    with:
+      tool_ref: '__TOOL_REF__'
+      timezone: __TIMEZONE__
+      theme: github-dark

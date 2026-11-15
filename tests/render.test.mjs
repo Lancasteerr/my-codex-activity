@@ -1,0 +1,38 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdir, writeFile, readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { renderSvg, formatUpload } from '../src/render.mjs';
+import { buildSvg } from '../src/ci.mjs';
+import { serializeUsage } from '../src/data.mjs';
+import { git } from '../src/git.mjs';
+import { temporary, usage } from './helpers.mjs';
+
+test('chart: deterministic same-day output, rolling unknown dates, actual upload commit time', async t => {
+  const value = usage({ '2026-11-15': 0, '2026-11-14': 50 });
+  const options = { lastUpdated: '2026-11-15T06:30:00Z', timezone: 'Asia/Singapore', now: new Date('2026-11-15T07:00:00Z') };
+  const svg = renderSvg(value, options);
+  assert.equal(svg, renderSvg(value, { ...options, now: new Date('2026-11-15T08:00:00Z') }));
+  const tomorrow = renderSvg(value, { ...options, now: new Date('2026-11-16T07:00:00Z') });
+  assert.notEqual(svg, tomorrow);
+  assert.ok(svg.includes('2026-11-15: 0 tokens'));
+  assert.ok(tomorrow.includes('2026-11-16: unknown / not synced'));
+  const updatedLine = text => text.match(/Last updated:[^<]+/u)?.[0];
+  assert.equal(updatedLine(svg), updatedLine(tomorrow));
+  assert.ok(svg.includes('2026-11-15 14:30 UTC+08:00'));
+  assert.ok(renderSvg(value, { ...options, theme: 'github-light' }).includes('#ffffff'));
+  const directory = await temporary(t);
+  await git(directory, ['init', '-b', 'main']);
+  assert.equal(await buildSvg(directory, options), false);
+  await mkdir(join(directory, 'data/codex'), { recursive: true });
+  await writeFile(join(directory, 'data/codex/usage.json'), serializeUsage(value));
+  await git(directory, ['add', '--', 'data/codex/usage.json']);
+  await git(directory, ['-c', 'user.name=Test', '-c', 'user.email=test@example.invalid', 'commit', '-m', 'Upload synthetic statistics'], { GIT_AUTHOR_DATE: '2026-11-15T06:30:00Z', GIT_COMMITTER_DATE: '2026-11-15T06:30:00Z' });
+  await buildSvg(directory, options);
+  const generated = await readFile(join(directory, 'assets/codex-activity.svg'), 'utf8');
+  assert.ok(generated.includes(`Last updated: ${formatUpload('2026-11-15T06:30:00Z', options.timezone)}`));
+  await git(directory, ['add', '--', 'assets/codex-activity.svg']);
+  await git(directory, ['-c', 'user.name=Test', '-c', 'user.email=test@example.invalid', 'commit', '-m', 'Redraw'], { GIT_AUTHOR_DATE: '2026-11-16T06:30:00Z', GIT_COMMITTER_DATE: '2026-11-16T06:30:00Z' });
+  await buildSvg(directory, { ...options, now: new Date('2026-11-16T07:00:00Z') });
+  assert.equal(updatedLine(await readFile(join(directory, 'assets/codex-activity.svg'), 'utf8')), updatedLine(generated));
+});

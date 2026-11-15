@@ -12,6 +12,10 @@
 | `GITHUB_REPOSITORY` | 是 | 已存在的 `owner/repo`，使用默认分支；不能填写 URL |
 | `CODEX_BIN` | 否 | `codex.exe` 的绝对路径；留空自动发现 |
 | `TIMEZONE` | 否 | IANA 显示时区，如 `Asia/Singapore`；留空读取本机时区 |
+| `ACTIVITY_THEME` | 否 | `github-dark`（默认）或 `github-light`；下次 `sync` 自动应用 |
+| `ACTIVITY_LANGUAGE` | 否 | `en`（默认）或 `zh-CN`；下次 `sync` 自动应用 |
+
+主题和语言留空时使用默认值，其他值会在联网前报错。这两项仅控制图片语言和外观；文档及 CLI 语言不受影响。
 
 默认只读取当前工作目录的 `.env`，不搜索父目录，不静默使用进程环境中的其他 Token。可显式指定配置文件：
 
@@ -25,7 +29,7 @@ npm run sync -- --env-file C:\private\codex-activity.env
 | --- | --- |
 | `npm run setup` | 检查 Codex 统计和仓库访问，验证公开工具版本，在 `generated/` 生成材料；不修改远程仓库或 `.env` |
 | `npm run status` | 检查采集与 GitHub 读取权限，显示最近上传时间；不写远程内容 |
-| `npm run sync` | 读取统计、合并已观测历史并比较内容，有变化才上传 |
+| `npm run sync` | 同步统计历史，再同步主题和语言；各文件有变化才上传 |
 | `node src/cli.mjs --help` | 显示命令帮助，无需配置或网络访问 |
 
 `setup` 生成的文件：
@@ -42,23 +46,32 @@ npm run sync -- --env-file C:\private\codex-activity.env
 
 ## 数据与历史
 
-Profile 中由工具维护 `data/codex/usage.json`，Actions 只写 `assets/codex-activity.svg`。不要手工编辑统计 JSON。
+Profile 中由工具维护 `data/codex/usage.json` 和 `data/codex/config.json`，后者仅保存公开的 `theme`、`language`。Actions 只写 `assets/codex-activity.svg`。不要手工编辑统计 JSON。
 
 - 保存接口实际返回的所有历史，不假定固定返回多少天。
 - 同日使用新值覆盖，不累加；接口窗口缩短不删除已保存日期。
 - 明确返回的 0 表示零用量，缺失日期表示 `unknown`；每日桶为 `null` 或采集失败时不覆盖远程文件。
-- 汇总值允许 `null`，图表显示 `Unavailable`。累计 Token 使用官方汇总，不通过有限每日记录求和推算。
-- 仅公开协议版本、来源标记、累计 Token、连续天数和每日 Token，不公开账户信息或原始 RPC。
+- 汇总值允许 `null`，图表显示 `Unavailable` / `暂无数据`。累计 Token 使用官方汇总，不通过有限每日记录求和推算。
+- 仅公开协议版本、来源标记、累计 Token、连续天数、每日 Token，以及主题和语言，不公开账户信息或原始 RPC。
 
-## 时间、主题与每日滚动
+## 时间、主题、语言与每日滚动
 
-`Last updated` 来自最近修改统计 JSON 的 Git 提交时间，表示最近实际上传时间。无变化时不上传，也不改变该时间；手工编辑 JSON 则会把那次提交变成新的更新时间。
+`Last updated` / `最后更新` 来自最近修改统计 JSON 的 Git 提交时间，表示最近实际上传时间。统计无变化时不上传，也不改变该时间；只修改主题或语言不会改变该时间。手工编辑统计 JSON 则会把那次提交变成新的更新时间。
 
 工作流每天按显示时区约 **00:17** 重绘最近 52 周并更新当天标记，本机可以关机。模板使用 IANA timezone 定时设置；新加坡 00:17 等价于 UTC 前一天 16:17。GitHub 调度可能延迟，公开仓库长期无活动时定时任务可能停用。
 
 每日重绘不查询 Codex，也不改变 `Last updated`。未上传的新日期保持 `unknown`，摘要仍是上次同步时的值。官方日期桶原样保留，显示时区不会重新拆分每日统计。
 
-主题默认 `github-dark`。浅色主题需将 Profile 工作流入口中的 `theme` 改为 `github-light`；修改入口会触发重绘。工作流和渲染器固定为完整提交 SHA，升级时重新运行新版 `setup` 并替换 Profile 工作流入口。
+主题默认 `github-dark`，语言默认 `en`。在本机 `.env` 设置后运行 `npm run sync`：
+
+```dotenv
+ACTIVITY_THEME=github-light
+ACTIVITY_LANGUAGE=zh-CN
+```
+
+即使统计无变化，`sync` 也会单独比较和上传显示配置，并触发 Actions 重绘；两者都无变化时不提交。Actions 优先使用 `data/codex/config.json`；文件缺失时沿用工作流的 `theme` 并使用英文，配置无效则停止发布。更新时间仍取统计文件的提交时间。
+
+已有 Profile 首次升级时，需要使用包含本功能的已发布版本，重新运行 `setup`，替换生成的 Profile 工作流入口并提交，然后运行 `sync`。工作流和渲染器固定为完整提交 SHA，仅更新本机代码无法升级远程渲染器。完成此次升级后，修改主题、语言无需重新 `setup`。时区仍需重新 `setup` 并替换入口。
 
 ## 失败与恢复
 
@@ -72,6 +85,8 @@ Profile 中由工具维护 `data/codex/usage.json`，Actions 只写 `assets/code
 | 暂时网络错误 | 工具进行有限重试；清洗后的待上传统计保留在本地缓存，下次 `sync` 自动合并 |
 | 上传发生 SHA 冲突 | 工具重新读取、合并后重试，不强推 |
 | JSON 已上传但图表失败 | 到 Profile Actions 手动运行 Codex Activity，或等待下次每日任务 |
+| 统计同步已完成，但显示配置同步失败 | 修复网络或权限问题，再运行 `sync`；已完成的统计上传不会回滚 |
+| 显示配置文件无效 | 修正 `data/codex/config.json` 为有效的 `theme`、`language` 对象，或删除该文件后运行 `sync` 重建 |
 | 公开版本验证失败或 checkout 找不到 SHA | 确认正确提交已推送到公开工具仓库，再运行 `setup` 更新入口 |
 | 每日任务延迟或停用 | 到 Actions 检查并重新启用，或手动运行 |
 

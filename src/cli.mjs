@@ -4,7 +4,7 @@ import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 import { readConfig } from './config.mjs';
 import { discoverCodex, collectUsage } from './collector.mjs';
-import { GitHubClient, uploadUsage } from './github.mjs';
+import { GitHubClient, uploadUsage, syncDisplayConfig } from './github.mjs';
 import { generateSetup } from './setup.mjs';
 import { stateDirectory, acquireLock, readPending, savePending, clearPending } from './state.mjs';
 import { mergeUsage } from './data.mjs';
@@ -56,6 +56,13 @@ export async function main(args = process.argv.slice(2), log = console.log) {
         log(result.confirmed ? '已确认数据上传成功；图表等待 Actions 更新。' : '数据已上传；图表等待 Actions 更新。');
       } else {
         log('数据无变化，未上传。');
+      }
+      try {
+        const display = await syncDisplayConfig(client, { branch, theme: config.theme, language: config.language });
+        log(display.changed ? '显示配置已同步；图表等待 Actions 更新。' : '显示配置无变化。');
+      } catch (error) {
+        log('统计同步已完成；显示配置同步失败，修复错误后再次运行 sync 即可补齐。');
+        throw error;
       }
       // A metadata lookup failure must not turn a completed upload into a failure.
       try { log(`上次上传：${formatUpload(await client.lastUpload(branch), config.timezone)}。`); }

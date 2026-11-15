@@ -4,9 +4,9 @@
 
 把 Codex 每日 Token 活动展示在 GitHub Profile 上。单机手动同步，GitHub Actions 每天自动滚动热力图；零运行时依赖。
 
-![Codex 活动合成示例](./examples/github-dark.svg)
+![Codex 活动合成示例](./examples/github-dark.zh-CN.svg)
 
-上图使用固定合成数据，不包含真实账号信息。另有[浅色示例](./examples/github-light.svg)。
+上图使用固定合成数据，不包含真实账号信息。另有[浅色示例](./examples/github-light.zh-CN.svg)。图片默认英文，可在 `.env` 设置 `ACTIVITY_LANGUAGE=zh-CN` 切换中文。
 
 ## 快速开始
 
@@ -26,6 +26,8 @@
    ```
 
    创建 GitHub **Fine-grained personal access token**：Resource owner 选择自己的账户，仅选择目标 Profile 仓库，授予 **Contents: Read and write** 并设置有效期。Metadata 读取权限自动提供，无需 Workflows 权限。不要提交 `.env`。
+
+   可选：设置 `ACTIVITY_THEME=github-light` 使用浅色主题、`ACTIVITY_LANGUAGE=zh-CN` 使用中文图片；默认深色、英文。接入新版工作流后，修改这些选项并运行 `npm run sync` 即可生效。
 
 3. 检查配置并生成接入材料：
 

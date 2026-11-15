@@ -1,4 +1,4 @@
-import { DATA_PATH } from './config.mjs';
+import { DATA_PATH, DISPLAY_CONFIG_PATH, normalizeDisplayConfig } from './config.mjs';
 import { ActivityError, fail } from './errors.mjs';
 import { normalizeUsage, mergeUsage, sameUsage, serializeUsage } from './data.mjs';
 
@@ -83,40 +83,79 @@ export class GitHubClient {
     return { branch: repo.default_branch };
   }
 
-  async readUsage(branch) {
+  async #readJson(branch, path) {
     try {
-      const file = await this.request(`${this.base}/contents/${DATA_PATH}?ref=${encodeURIComponent(branch)}`);
+      const file = await this.request(`${this.base}/contents/${path}?ref=${encodeURIComponent(branch)}`);
       if (file.type !== 'file' || file.encoding !== 'base64' || !/^[a-f0-9]{40}$/u.test(file.sha ?? '') || typeof file.content !== 'string') {
-        fail('DATA', '远程统计文件无法安全读取。');
+        fail('DATA', '远程文件无法安全读取。');
       }
       let parsed;
       try { parsed = JSON.parse(Buffer.from(file.content, 'base64').toString('utf8')); }
-      catch { fail('DATA', '远程统计 JSON 无效；未覆盖现有文件。'); }
-      return { usage: normalizeUsage(parsed), sha: file.sha };
+      catch { fail('DATA', '远程 JSON 无效；未覆盖现有文件。'); }
+      return { value: parsed, sha: file.sha };
     } catch (error) {
-      if (error instanceof GitHubError && error.status === 404) return { usage: null, sha: null };
+      if (error instanceof GitHubError && error.status === 404) return { value: null, sha: null };
       throw error;
     }
   }
 
-  async writeUsage(branch, usage, sha) {
+  async readUsage(branch) {
+    const { value, sha } = await this.#readJson(branch, DATA_PATH);
+    return { usage: sha === null ? null : normalizeUsage(value), sha };
+  }
+
+  async readDisplayConfig(branch) {
+    const { value, sha } = await this.#readJson(branch, DISPLAY_CONFIG_PATH);
+    return { config: sha === null ? null : normalizeDisplayConfig(value), sha };
+  }
+
+  async #writeJson(branch, path, content, sha, message) {
     // Keep the authenticated user's private primary email out of public commit metadata.
     const owner = this.repository.split('/')[0];
     const identity = { name: owner, email: `${owner}@users.noreply.github.com` };
-    const result = await this.request(`${this.base}/contents/${DATA_PATH}`, {
+    const result = await this.request(`${this.base}/contents/${path}`, {
       method: 'PUT',
       body: {
-        message: 'Update Codex activity data', branch, author: identity, committer: identity,
-        content: Buffer.from(serializeUsage(usage)).toString('base64'), ...(sha ? { sha } : {}),
+        message, branch, author: identity, committer: identity,
+        content: Buffer.from(content).toString('base64'), ...(sha ? { sha } : {}),
       },
     });
     return result.commit?.committer?.date ?? null;
+  }
+
+  async writeUsage(branch, usage, sha) {
+    return this.#writeJson(branch, DATA_PATH, serializeUsage(usage), sha, 'Update Codex activity data');
+  }
+
+  async writeDisplayConfig(branch, config, sha) {
+    const content = `${JSON.stringify(normalizeDisplayConfig(config), null, 2)}\n`;
+    return this.#writeJson(branch, DISPLAY_CONFIG_PATH, content, sha, 'Update Codex activity display config');
   }
 
   async lastUpload(branch) {
     const commits = await this.request(`${this.base}/commits?path=${encodeURIComponent(DATA_PATH)}&sha=${encodeURIComponent(branch)}&per_page=1`);
     const value = commits[0]?.commit?.committer?.date;
     return typeof value === 'string' && !Number.isNaN(Date.parse(value)) ? new Date(value).toISOString() : null;
+  }
+}
+
+export async function syncDisplayConfig(client, { branch, theme = 'github-dark', language = 'en' }) {
+  const candidate = normalizeDisplayConfig({ theme, language });
+  const matches = config => config?.theme === candidate.theme && config?.language === candidate.language;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const remote = await client.readDisplayConfig(branch);
+    if (matches(remote.config)) return { changed: false, confirmed: false };
+    try {
+      await client.writeDisplayConfig(branch, candidate, remote.sha);
+      return { changed: true, confirmed: false };
+    } catch (error) {
+      if (!transient(error) && !(error instanceof GitHubError && error.status === 409)) throw error;
+      // Configuration writes may also succeed before their response is lost.
+      const confirmed = await client.readDisplayConfig(branch);
+      if (matches(confirmed.config)) return { changed: true, confirmed: true };
+      if (attempt === 2) throw error;
+      await client.sleep(500 * 2 ** attempt);
+    }
   }
 }
 

@@ -1,0 +1,385 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="326" viewBox="0 0 820 326" xml:lang="zh-CN" role="img" aria-labelledby="title description">
+  <title id="title">Codex 活动</title>
+  <desc id="description">最近 52 周，截至 2026-11-15；汇总数据截至上次同步。累计 Token：287400000。上次数据上传：2026-11-15 14:30 UTC+08:00。虚线方格表示未知，而非零用量。</desc>
+  <rect x="0.5" y="0.5" width="819" height="325" rx="14" fill="#ffffff" stroke="#d0d7de"/>
+  <style>text{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Microsoft YaHei,PingFang SC,Noto Sans CJK SC,sans-serif;fill:#1f2328}.muted{fill:#656d76;font-size:11px}.metric{font-size:25px;font-weight:600}.label{font-size:11px;fill:#656d76}</style>
+  <text x="30" y="32" font-size="18" font-weight="600">Codex 活动</text>
+  <text x="30" y="77" class="label">累计 Token</text><text x="30" y="106" class="metric">2.87亿</text>
+  <text x="300" y="77" class="label">连续活跃天数 · 截至上次同步</text><text x="300" y="106" class="metric">8 天</text>
+  <text x="610" y="77" class="label">已记录天数</text><text x="610" y="106" class="metric">273</text>
+  <g class="muted"><text x="30" y="134">11月</text><text x="58" y="134">12月</text><text x="114" y="134">1月</text><text x="184" y="134">2月</text><text x="240" y="134">3月</text><text x="296" y="134">4月</text><text x="352" y="134">5月</text><text x="422" y="134">6月</text><text x="478" y="134">7月</text><text x="534" y="134">8月</text><text x="604" y="134">9月</text><text x="660" y="134">10月</text><text x="730" y="134">11月</text></g>
+  <rect x="30" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#d0d7de"><title>2025-11-16: 显示范围外</title></rect>
+  <rect x="30" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-17: 未知 / 尚未同步</title></rect>
+  <rect x="30" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-18: 未知 / 尚未同步</title></rect>
+  <rect x="30" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-19: 未知 / 尚未同步</title></rect>
+  <rect x="30" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-20: 未知 / 尚未同步</title></rect>
+  <rect x="30" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-21: 未知 / 尚未同步</title></rect>
+  <rect x="30" y="229" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-22: 未知 / 尚未同步</title></rect>
+  <rect x="44" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-23: 未知 / 尚未同步</title></rect>
+  <rect x="44" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-24: 未知 / 尚未同步</title></rect>
+  <rect x="44" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-25: 未知 / 尚未同步</title></rect>
+  <rect x="44" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-26: 未知 / 尚未同步</title></rect>
+  <rect x="44" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-27: 未知 / 尚未同步</title></rect>
+  <rect x="44" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-28: 未知 / 尚未同步</title></rect>
+  <rect x="44" y="229" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-29: 未知 / 尚未同步</title></rect>
+  <rect x="58" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-11-30: 未知 / 尚未同步</title></rect>
+  <rect x="58" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-01: 未知 / 尚未同步</title></rect>
+  <rect x="58" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-02: 未知 / 尚未同步</title></rect>
+  <rect x="58" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-03: 未知 / 尚未同步</title></rect>
+  <rect x="58" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-04: 未知 / 尚未同步</title></rect>
+  <rect x="58" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-05: 未知 / 尚未同步</title></rect>
+  <rect x="58" y="229" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-06: 未知 / 尚未同步</title></rect>
+  <rect x="72" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-07: 未知 / 尚未同步</title></rect>
+  <rect x="72" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-08: 未知 / 尚未同步</title></rect>
+  <rect x="72" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-09: 未知 / 尚未同步</title></rect>
+  <rect x="72" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-10: 未知 / 尚未同步</title></rect>
+  <rect x="72" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-11: 未知 / 尚未同步</title></rect>
+  <rect x="72" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-12: 未知 / 尚未同步</title></rect>
+  <rect x="72" y="229" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-13: 未知 / 尚未同步</title></rect>
+  <rect x="86" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-14: 未知 / 尚未同步</title></rect>
+  <rect x="86" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-15: 未知 / 尚未同步</title></rect>
+  <rect x="86" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-16: 未知 / 尚未同步</title></rect>
+  <rect x="86" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-17: 未知 / 尚未同步</title></rect>
+  <rect x="86" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-18: 未知 / 尚未同步</title></rect>
+  <rect x="86" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-19: 未知 / 尚未同步</title></rect>
+  <rect x="86" y="229" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-20: 未知 / 尚未同步</title></rect>
+  <rect x="100" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-21: 未知 / 尚未同步</title></rect>
+  <rect x="100" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-22: 未知 / 尚未同步</title></rect>
+  <rect x="100" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-23: 未知 / 尚未同步</title></rect>
+  <rect x="100" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-24: 未知 / 尚未同步</title></rect>
+  <rect x="100" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-25: 未知 / 尚未同步</title></rect>
+  <rect x="100" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-26: 未知 / 尚未同步</title></rect>
+  <rect x="100" y="229" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-27: 未知 / 尚未同步</title></rect>
+  <rect x="114" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-28: 未知 / 尚未同步</title></rect>
+  <rect x="114" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-29: 未知 / 尚未同步</title></rect>
+  <rect x="114" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-30: 未知 / 尚未同步</title></rect>
+  <rect x="114" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2025-12-31: 未知 / 尚未同步</title></rect>
+  <rect x="114" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-01: 未知 / 尚未同步</title></rect>
+  <rect x="114" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-02: 未知 / 尚未同步</title></rect>
+  <rect x="114" y="229" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-03: 未知 / 尚未同步</title></rect>
+  <rect x="128" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-04: 未知 / 尚未同步</title></rect>
+  <rect x="128" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-05: 未知 / 尚未同步</title></rect>
+  <rect x="128" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-06: 未知 / 尚未同步</title></rect>
+  <rect x="128" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-07: 未知 / 尚未同步</title></rect>
+  <rect x="128" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-08: 未知 / 尚未同步</title></rect>
+  <rect x="128" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-09: 未知 / 尚未同步</title></rect>
+  <rect x="128" y="229" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-10: 未知 / 尚未同步</title></rect>
+  <rect x="142" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-11: 未知 / 尚未同步</title></rect>
+  <rect x="142" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-12: 未知 / 尚未同步</title></rect>
+  <rect x="142" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-13: 未知 / 尚未同步</title></rect>
+  <rect x="142" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-14: 未知 / 尚未同步</title></rect>
+  <rect x="142" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-15: 未知 / 尚未同步</title></rect>
+  <rect x="142" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-16: 未知 / 尚未同步</title></rect>
+  <rect x="142" y="229" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-17: 未知 / 尚未同步</title></rect>
+  <rect x="156" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-18: 未知 / 尚未同步</title></rect>
+  <rect x="156" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-19: 未知 / 尚未同步</title></rect>
+  <rect x="156" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-20: 未知 / 尚未同步</title></rect>
+  <rect x="156" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-21: 未知 / 尚未同步</title></rect>
+  <rect x="156" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-22: 未知 / 尚未同步</title></rect>
+  <rect x="156" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-23: 未知 / 尚未同步</title></rect>
+  <rect x="156" y="229" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-24: 未知 / 尚未同步</title></rect>
+  <rect x="170" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-25: 未知 / 尚未同步</title></rect>
+  <rect x="170" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-26: 未知 / 尚未同步</title></rect>
+  <rect x="170" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-27: 未知 / 尚未同步</title></rect>
+  <rect x="170" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-28: 未知 / 尚未同步</title></rect>
+  <rect x="170" y="201" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-01-29: 0 Token</title></rect>
+  <rect x="170" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-01-30: 未知 / 尚未同步</title></rect>
+  <rect x="170" y="229" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-01-31: 119,131 Token</title></rect>
+  <rect x="184" y="145" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-02-01: 1,785,462 Token</title></rect>
+  <rect x="184" y="159" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-02-02: 1,541,122 Token</title></rect>
+  <rect x="184" y="173" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-02-03: 0 Token</title></rect>
+  <rect x="184" y="187" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-02-04: 1,264,784 Token</title></rect>
+  <rect x="184" y="201" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-02-05: 1,202,492 Token</title></rect>
+  <rect x="184" y="215" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-02-06: 1,154,547 Token</title></rect>
+  <rect x="184" y="229" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-02-07: 1,089,101 Token</title></rect>
+  <rect x="198" y="145" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-02-08: 0 Token</title></rect>
+  <rect x="198" y="159" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-02-09: 799,804 Token</title></rect>
+  <rect x="198" y="173" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-02-10: 2,528,058 Token</title></rect>
+  <rect x="198" y="187" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-02-11: 2,208,181 Token</title></rect>
+  <rect x="198" y="201" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-02-12: 1,838,663 Token</title></rect>
+  <rect x="198" y="215" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-02-13: 0 Token</title></rect>
+  <rect x="198" y="229" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-02-14: 1,065,473 Token</title></rect>
+  <rect x="212" y="145" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-02-15: 723,477 Token</title></rect>
+  <rect x="212" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-02-16: 未知 / 尚未同步</title></rect>
+  <rect x="212" y="173" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-02-17: 237,414 Token</title></rect>
+  <rect x="212" y="187" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-02-18: 0 Token</title></rect>
+  <rect x="212" y="201" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-02-19: 2,001,519 Token</title></rect>
+  <rect x="212" y="215" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-02-20: 1,950,500 Token</title></rect>
+  <rect x="212" y="229" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-02-21: 1,897,537 Token</title></rect>
+  <rect x="226" y="145" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-02-22: 1,811,711 Token</title></rect>
+  <rect x="226" y="159" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-02-23: 0 Token</title></rect>
+  <rect x="226" y="173" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-02-24: 1,452,804 Token</title></rect>
+  <rect x="226" y="187" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-02-25: 1,164,712 Token</title></rect>
+  <rect x="226" y="201" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-02-26: 816,514 Token</title></rect>
+  <rect x="226" y="215" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-02-27: 431,940 Token</title></rect>
+  <rect x="226" y="229" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-02-28: 0 Token</title></rect>
+  <rect x="240" y="145" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-03-01: 1,656,613 Token</title></rect>
+  <rect x="240" y="159" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-03-02: 1,344,229 Token</title></rect>
+  <rect x="240" y="173" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-03-03: 1,101,403 Token</title></rect>
+  <rect x="240" y="187" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-03-04: 932,360 Token</title></rect>
+  <rect x="240" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-03-05: 未知 / 尚未同步</title></rect>
+  <rect x="240" y="215" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-03-06: 765,981 Token</title></rect>
+  <rect x="240" y="229" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-03-07: 717,996 Token</title></rect>
+  <rect x="254" y="145" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-03-08: 651,871 Token</title></rect>
+  <rect x="254" y="159" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-03-09: 2,519,123 Token</title></rect>
+  <rect x="254" y="173" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-03-10: 0 Token</title></rect>
+  <rect x="254" y="187" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-03-11: 2,086,652 Token</title></rect>
+  <rect x="254" y="201" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-03-12: 1,765,535 Token</title></rect>
+  <rect x="254" y="215" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-03-13: 1,395,265 Token</title></rect>
+  <rect x="254" y="229" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-03-14: 1,003,659 Token</title></rect>
+  <rect x="268" y="145" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-03-15: 0 Token</title></rect>
+  <rect x="268" y="159" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-03-16: 281,570 Token</title></rect>
+  <rect x="268" y="173" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-03-17: 3,302 Token</title></rect>
+  <rect x="268" y="187" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-03-18: 1,778,466 Token</title></rect>
+  <rect x="268" y="201" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-03-19: 1,644,255 Token</title></rect>
+  <rect x="268" y="215" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-03-20: 0 Token</title></rect>
+  <rect x="268" y="229" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-03-21: 1,514,051 Token</title></rect>
+  <rect x="282" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-03-22: 未知 / 尚未同步</title></rect>
+  <rect x="282" y="159" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-03-23: 1,373,925 Token</title></rect>
+  <rect x="282" y="173" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-03-24: 1,229,027 Token</title></rect>
+  <rect x="282" y="187" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-03-25: 0 Token</title></rect>
+  <rect x="282" y="201" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-03-26: 722,624 Token</title></rect>
+  <rect x="282" y="215" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-03-27: 2,353,412 Token</title></rect>
+  <rect x="282" y="229" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-03-28: 1,968,397 Token</title></rect>
+  <rect x="296" y="145" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-03-29: 1,578,126 Token</title></rect>
+  <rect x="296" y="159" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-03-30: 0 Token</title></rect>
+  <rect x="296" y="173" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-03-31: 903,026 Token</title></rect>
+  <rect x="296" y="187" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-04-01: 661,716 Token</title></rect>
+  <rect x="296" y="201" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-04-02: 494,131 Token</title></rect>
+  <rect x="296" y="215" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-04-03: 390,568 Token</title></rect>
+  <rect x="296" y="229" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-04-04: 0 Token</title></rect>
+  <rect x="310" y="145" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-04-05: 2,261,436 Token</title></rect>
+  <rect x="310" y="159" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-04-06: 2,194,621 Token</title></rect>
+  <rect x="310" y="173" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-04-07: 2,080,674 Token</title></rect>
+  <rect x="310" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-04-08: 未知 / 尚未同步</title></rect>
+  <rect x="310" y="201" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-04-09: 0 Token</title></rect>
+  <rect x="310" y="215" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-04-10: 1,322,867 Token</title></rect>
+  <rect x="310" y="229" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-04-11: 951,859 Token</title></rect>
+  <rect x="324" y="145" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-04-12: 560,144 Token</title></rect>
+  <rect x="324" y="159" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-04-13: 179,510 Token</title></rect>
+  <rect x="324" y="173" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-04-14: 0 Token</title></rect>
+  <rect x="324" y="187" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-04-15: 1,542,862 Token</title></rect>
+  <rect x="324" y="201" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-04-16: 1,339,548 Token</title></rect>
+  <rect x="324" y="215" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-04-17: 1,206,658 Token</title></rect>
+  <rect x="324" y="229" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-04-18: 1,128,068 Token</title></rect>
+  <rect x="338" y="145" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-04-19: 0 Token</title></rect>
+  <rect x="338" y="159" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-04-20: 1,023,876 Token</title></rect>
+  <rect x="338" y="173" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-04-21: 936,114 Token</title></rect>
+  <rect x="338" y="187" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-04-22: 789,838 Token</title></rect>
+  <rect x="338" y="201" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-04-23: 2,551,400 Token</title></rect>
+  <rect x="338" y="215" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-04-24: 0 Token</title></rect>
+  <rect x="338" y="229" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-04-25: 未知 / 尚未同步</title></rect>
+  <rect x="352" y="145" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-04-26: 1,524,852 Token</title></rect>
+  <rect x="352" y="159" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-04-27: 1,134,810 Token</title></rect>
+  <rect x="352" y="173" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-04-28: 771,643 Token</title></rect>
+  <rect x="352" y="187" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-04-29: 0 Token</title></rect>
+  <rect x="352" y="201" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-04-30: 222,061 Token</title></rect>
+  <rect x="352" y="215" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-05-01: 55,929 Token</title></rect>
+  <rect x="352" y="229" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-05-02: 1,933,487 Token</title></rect>
+  <rect x="366" y="145" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-05-03: 1,872,975 Token</title></rect>
+  <rect x="366" y="159" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-05-04: 0 Token</title></rect>
+  <rect x="366" y="173" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-05-05: 1,757,351 Token</title></rect>
+  <rect x="366" y="187" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-05-06: 1,642,196 Token</title></rect>
+  <rect x="366" y="201" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-05-07: 1,459,996 Token</title></rect>
+  <rect x="366" y="215" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-05-08: 1,203,754 Token</title></rect>
+  <rect x="366" y="229" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-05-09: 0 Token</title></rect>
+  <rect x="380" y="145" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-05-10: 508,444 Token</title></rect>
+  <rect x="380" y="159" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-05-11: 2,096,634 Token</title></rect>
+  <rect x="380" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-05-12: 未知 / 尚未同步</title></rect>
+  <rect x="380" y="187" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-05-13: 1,377,836 Token</title></rect>
+  <rect x="380" y="201" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-05-14: 0 Token</title></rect>
+  <rect x="380" y="215" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-05-15: 900,660 Token</title></rect>
+  <rect x="380" y="229" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-05-16: 769,085 Token</title></rect>
+  <rect x="394" y="145" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-05-17: 691,360 Token</title></rect>
+  <rect x="394" y="159" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-05-18: 641,149 Token</title></rect>
+  <rect x="394" y="173" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-05-19: 0 Token</title></rect>
+  <rect x="394" y="187" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-05-20: 2,478,279 Token</title></rect>
+  <rect x="394" y="201" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-05-21: 2,330,618 Token</title></rect>
+  <rect x="394" y="215" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-05-22: 2,110,652 Token</title></rect>
+  <rect x="394" y="229" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-05-23: 1,818,373 Token</title></rect>
+  <rect x="408" y="145" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-05-24: 0 Token</title></rect>
+  <rect x="408" y="159" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-05-25: 1,081,306 Token</title></rect>
+  <rect x="408" y="173" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-05-26: 691,506 Token</title></rect>
+  <rect x="408" y="187" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-05-27: 329,193 Token</title></rect>
+  <rect x="408" y="201" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-05-28: 20,710 Token</title></rect>
+  <rect x="408" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-05-29: 未知 / 尚未同步</title></rect>
+  <rect x="408" y="229" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-05-30: 1,597,755 Token</title></rect>
+  <rect x="422" y="145" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-05-31: 1,496,424 Token</title></rect>
+  <rect x="422" y="159" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-06-01: 1,436,480 Token</title></rect>
+  <rect x="422" y="173" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-06-02: 1,388,293 Token</title></rect>
+  <rect x="422" y="187" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-06-03: 0 Token</title></rect>
+  <rect x="422" y="201" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-06-04: 1,203,689 Token</title></rect>
+  <rect x="422" y="215" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-06-05: 1,019,996 Token</title></rect>
+  <rect x="422" y="229" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-06-06: 762,262 Token</title></rect>
+  <rect x="436" y="145" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-06-07: 2,417,471 Token</title></rect>
+  <rect x="436" y="159" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-06-08: 0 Token</title></rect>
+  <rect x="436" y="173" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-06-09: 1,653,129 Token</title></rect>
+  <rect x="436" y="187" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-06-10: 1,273,617 Token</title></rect>
+  <rect x="436" y="201" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-06-11: 936,009 Token</title></rect>
+  <rect x="436" y="215" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-06-12: 662,077 Token</title></rect>
+  <rect x="436" y="229" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-06-13: 0 Token</title></rect>
+  <rect x="450" y="145" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-06-14: 331,535 Token</title></rect>
+  <rect x="450" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-06-15: 未知 / 尚未同步</title></rect>
+  <rect x="450" y="173" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-06-16: 2,184,696 Token</title></rect>
+  <rect x="450" y="187" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-06-17: 2,130,156 Token</title></rect>
+  <rect x="450" y="201" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-06-18: 0 Token</title></rect>
+  <rect x="450" y="215" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-06-19: 1,891,368 Token</title></rect>
+  <rect x="450" y="229" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-06-20: 1,669,873 Token</title></rect>
+  <rect x="464" y="145" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-06-21: 1,376,210 Token</title></rect>
+  <rect x="464" y="159" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-06-22: 1,024,015 Token</title></rect>
+  <rect x="464" y="173" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-06-23: 0 Token</title></rect>
+  <rect x="464" y="187" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-06-24: 248,213 Token</title></rect>
+  <rect x="464" y="201" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-06-25: 1,866,765 Token</title></rect>
+  <rect x="464" y="215" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-06-26: 1,559,597 Token</title></rect>
+  <rect x="464" y="229" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-06-27: 1,322,844 Token</title></rect>
+  <rect x="478" y="145" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-06-28: 0 Token</title></rect>
+  <rect x="478" y="159" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-06-29: 1,059,379 Token</title></rect>
+  <rect x="478" y="173" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-06-30: 999,990 Token</title></rect>
+  <rect x="478" y="187" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-07-01: 951,708 Token</title></rect>
+  <rect x="478" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-07-02: 未知 / 尚未同步</title></rect>
+  <rect x="478" y="215" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-07-03: 0 Token</title></rect>
+  <rect x="478" y="229" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-07-04: 2,559,966 Token</title></rect>
+  <rect x="492" y="145" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-07-05: 2,300,741 Token</title></rect>
+  <rect x="492" y="159" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-07-06: 1,974,742 Token</title></rect>
+  <rect x="492" y="173" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-07-07: 1,601,588 Token</title></rect>
+  <rect x="492" y="187" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-07-08: 0 Token</title></rect>
+  <rect x="492" y="201" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-07-09: 830,697 Token</title></rect>
+  <rect x="492" y="215" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-07-10: 494,210 Token</title></rect>
+  <rect x="492" y="229" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-07-11: 221,731 Token</title></rect>
+  <rect x="506" y="145" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-07-12: 22,974 Token</title></rect>
+  <rect x="506" y="159" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-07-13: 0 Token</title></rect>
+  <rect x="506" y="173" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-07-14: 1,797,980 Token</title></rect>
+  <rect x="506" y="187" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-07-15: 1,748,241 Token</title></rect>
+  <rect x="506" y="201" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-07-16: 1,693,274 Token</title></rect>
+  <rect x="506" y="215" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-07-17: 1,602,532 Token</title></rect>
+  <rect x="506" y="229" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-07-18: 0 Token</title></rect>
+  <rect x="520" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-07-19: 未知 / 尚未同步</title></rect>
+  <rect x="520" y="159" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-07-20: 934,022 Token</title></rect>
+  <rect x="520" y="173" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-07-21: 580,853 Token</title></rect>
+  <rect x="520" y="187" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-07-22: 2,174,208 Token</title></rect>
+  <rect x="520" y="201" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-07-23: 0 Token</title></rect>
+  <rect x="520" y="215" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-07-24: 1,424,360 Token</title></rect>
+  <rect x="520" y="229" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-07-25: 1,118,513 Token</title></rect>
+  <rect x="534" y="145" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-07-26: 883,282 Token</title></rect>
+  <rect x="534" y="159" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-07-27: 721,486 Token</title></rect>
+  <rect x="534" y="173" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-07-28: 0 Token</title></rect>
+  <rect x="534" y="187" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-07-29: 563,504 Token</title></rect>
+  <rect x="534" y="201" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-07-30: 515,115 Token</title></rect>
+  <rect x="534" y="215" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-07-31: 2,425,417 Token</title></rect>
+  <rect x="534" y="229" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-08-01: 2,306,589 Token</title></rect>
+  <rect x="548" y="145" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-08-02: 0 Token</title></rect>
+  <rect x="548" y="159" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-08-03: 1,859,192 Token</title></rect>
+  <rect x="548" y="173" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-08-04: 1,531,993 Token</title></rect>
+  <rect x="548" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-08-05: 未知 / 尚未同步</title></rect>
+  <rect x="548" y="201" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-08-06: 766,135 Token</title></rect>
+  <rect x="548" y="215" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-08-07: 0 Token</title></rect>
+  <rect x="548" y="229" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-08-08: 52,438 Token</title></rect>
+  <rect x="562" y="145" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-08-09: 1,761,416 Token</title></rect>
+  <rect x="562" y="159" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-08-10: 1,564,176 Token</title></rect>
+  <rect x="562" y="173" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-08-11: 1,436,502 Token</title></rect>
+  <rect x="562" y="187" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-08-12: 0 Token</title></rect>
+  <rect x="562" y="201" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-08-13: 1,311,783 Token</title></rect>
+  <rect x="562" y="215" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-08-14: 1,256,377 Token</title></rect>
+  <rect x="562" y="229" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-08-15: 1,164,620 Token</title></rect>
+  <rect x="576" y="145" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-08-16: 1,012,774 Token</title></rect>
+  <rect x="576" y="159" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-08-17: 0 Token</title></rect>
+  <rect x="576" y="173" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-08-18: 2,471,809 Token</title></rect>
+  <rect x="576" y="187" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-08-19: 2,117,677 Token</title></rect>
+  <rect x="576" y="201" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-08-20: 1,730,657 Token</title></rect>
+  <rect x="576" y="215" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-08-21: 1,341,663 Token</title></rect>
+  <rect x="576" y="229" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-08-22: 未知 / 尚未同步</title></rect>
+  <rect x="590" y="145" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-08-23: 677,460 Token</title></rect>
+  <rect x="590" y="159" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-08-24: 443,752 Token</title></rect>
+  <rect x="590" y="173" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-08-25: 283,392 Token</title></rect>
+  <rect x="590" y="187" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-08-26: 185,340 Token</title></rect>
+  <rect x="590" y="201" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-08-27: 0 Token</title></rect>
+  <rect x="590" y="215" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-08-28: 2,058,513 Token</title></rect>
+  <rect x="590" y="229" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-08-29: 1,988,065 Token</title></rect>
+  <rect x="604" y="145" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-08-30: 1,867,996 Token</title></rect>
+  <rect x="604" y="159" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-08-31: 1,679,809 Token</title></rect>
+  <rect x="604" y="173" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-09-01: 0 Token</title></rect>
+  <rect x="604" y="187" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-09-02: 1,089,224 Token</title></rect>
+  <rect x="604" y="201" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-09-03: 714,700 Token</title></rect>
+  <rect x="604" y="215" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-09-04: 322,646 Token</title></rect>
+  <rect x="604" y="229" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-09-05: 1,924,911 Token</title></rect>
+  <rect x="618" y="145" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-09-06: 0 Token</title></rect>
+  <rect x="618" y="159" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-09-07: 1,321,133 Token</title></rect>
+  <rect x="618" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-09-08: 未知 / 尚未同步</title></rect>
+  <rect x="618" y="187" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-09-09: 999,020 Token</title></rect>
+  <rect x="618" y="201" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-09-10: 924,644 Token</title></rect>
+  <rect x="618" y="215" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-09-11: 0 Token</title></rect>
+  <rect x="618" y="229" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-09-12: 819,464 Token</title></rect>
+  <rect x="632" y="145" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-09-13: 726,683 Token</title></rect>
+  <rect x="632" y="159" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-09-14: 2,553,431 Token</title></rect>
+  <rect x="632" y="173" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-09-15: 2,327,352 Token</title></rect>
+  <rect x="632" y="187" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-09-16: 0 Token</title></rect>
+  <rect x="632" y="201" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-09-17: 1,674,488 Token</title></rect>
+  <rect x="632" y="215" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-09-18: 1,287,105 Token</title></rect>
+  <rect x="632" y="229" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-09-19: 898,407 Token</title></rect>
+  <rect x="646" y="145" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-09-20: 539,621 Token</title></rect>
+  <rect x="646" y="159" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-09-21: 0 Token</title></rect>
+  <rect x="646" y="173" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-09-22: 4,253 Token</title></rect>
+  <rect x="646" y="187" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-09-23: 1,825,325 Token</title></rect>
+  <rect x="646" y="201" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-09-24: 1,728,346 Token</title></rect>
+  <rect x="646" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-09-25: 未知 / 尚未同步</title></rect>
+  <rect x="646" y="229" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-09-26: 0 Token</title></rect>
+  <rect x="660" y="145" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-09-27: 1,550,691 Token</title></rect>
+  <rect x="660" y="159" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-09-28: 1,429,374 Token</title></rect>
+  <rect x="660" y="173" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-09-29: 1,239,684 Token</title></rect>
+  <rect x="660" y="187" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-09-30: 976,009 Token</title></rect>
+  <rect x="660" y="201" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-10-01: 0 Token</title></rect>
+  <rect x="660" y="215" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-10-02: 2,251,244 Token</title></rect>
+  <rect x="660" y="229" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-10-03: 1,859,164 Token</title></rect>
+  <rect x="674" y="145" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-10-04: 1,482,046 Token</title></rect>
+  <rect x="674" y="159" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-10-05: 1,148,976 Token</title></rect>
+  <rect x="674" y="173" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-10-06: 0 Token</title></rect>
+  <rect x="674" y="187" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-10-07: 686,667 Token</title></rect>
+  <rect x="674" y="201" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-10-08: 561,559 Token</title></rect>
+  <rect x="674" y="215" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-10-09: 487,992 Token</title></rect>
+  <rect x="674" y="229" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-10-10: 438,861 Token</title></rect>
+  <rect x="688" y="145" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-10-11: 0 Token</title></rect>
+  <rect x="688" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-10-12: 未知 / 尚未同步</title></rect>
+  <rect x="688" y="173" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-10-13: 2,114,056 Token</title></rect>
+  <rect x="688" y="187" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-10-14: 1,886,450 Token</title></rect>
+  <rect x="688" y="201" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-10-15: 1,587,310 Token</title></rect>
+  <rect x="688" y="215" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-10-16: 0 Token</title></rect>
+  <rect x="688" y="229" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-10-17: 843,553 Token</title></rect>
+  <rect x="702" y="145" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-10-18: 455,164 Token</title></rect>
+  <rect x="702" y="159" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-10-19: 97,287 Token</title></rect>
+  <rect x="702" y="173" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-10-20: 1,775,444 Token</title></rect>
+  <rect x="702" y="187" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-10-21: 0 Token</title></rect>
+  <rect x="702" y="201" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-10-22: 1,387,283 Token</title></rect>
+  <rect x="702" y="215" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-10-23: 1,291,369 Token</title></rect>
+  <rect x="702" y="229" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-10-24: 1,234,074 Token</title></rect>
+  <rect x="716" y="145" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-10-25: 1,185,280 Token</title></rect>
+  <rect x="716" y="159" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-10-26: 0 Token</title></rect>
+  <rect x="716" y="173" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-10-27: 990,723 Token</title></rect>
+  <rect x="716" y="187" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-10-28: 799,527 Token</title></rect>
+  <rect x="716" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"><title>2026-10-29: 未知 / 尚未同步</title></rect>
+  <rect x="716" y="215" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-10-30: 2,183,627 Token</title></rect>
+  <rect x="716" y="229" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-10-31: 0 Token</title></rect>
+  <rect x="730" y="145" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-11-01: 1,415,688 Token</title></rect>
+  <rect x="730" y="159" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-11-02: 1,039,200 Token</title></rect>
+  <rect x="730" y="173" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-11-03: 707,286 Token</title></rect>
+  <rect x="730" y="187" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-11-04: 440,662 Token</title></rect>
+  <rect x="730" y="201" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-11-05: 0 Token</title></rect>
+  <rect x="730" y="215" width="10" height="10" rx="2" fill="#9be9a8" stroke="#d0d7de"><title>2026-11-06: 124,121 Token</title></rect>
+  <rect x="730" y="229" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-11-07: 2,031,351 Token</title></rect>
+  <rect x="744" y="145" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-11-08: 1,982,395 Token</title></rect>
+  <rect x="744" y="159" width="10" height="10" rx="2" fill="#216e39" stroke="#d0d7de"><title>2026-11-09: 1,925,591 Token</title></rect>
+  <rect x="744" y="173" width="10" height="10" rx="2" fill="#ebedf0" stroke="#d0d7de"><title>2026-11-10: 0 Token</title></rect>
+  <rect x="744" y="187" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-11-11: 1,674,651 Token</title></rect>
+  <rect x="744" y="201" width="10" height="10" rx="2" fill="#30a14e" stroke="#d0d7de"><title>2026-11-12: 1,445,518 Token</title></rect>
+  <rect x="744" y="215" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-11-13: 1,145,023 Token</title></rect>
+  <rect x="744" y="229" width="10" height="10" rx="2" fill="#40c463" stroke="#d0d7de"><title>2026-11-14: 788,067 Token</title></rect>
+  <rect x="758" y="145" width="10" height="10" rx="2" fill="#ffffff" stroke="#1f2328" stroke-dasharray="2 2"><title>2026-11-15: 未知 / 尚未同步</title></rect>
+  <rect x="758" y="159" width="10" height="10" rx="2" fill="#ffffff" stroke="#d0d7de"><title>2026-11-16: 未来日期</title></rect>
+  <rect x="758" y="173" width="10" height="10" rx="2" fill="#ffffff" stroke="#d0d7de"><title>2026-11-17: 未来日期</title></rect>
+  <rect x="758" y="187" width="10" height="10" rx="2" fill="#ffffff" stroke="#d0d7de"><title>2026-11-18: 未来日期</title></rect>
+  <rect x="758" y="201" width="10" height="10" rx="2" fill="#ffffff" stroke="#d0d7de"><title>2026-11-19: 未来日期</title></rect>
+  <rect x="758" y="215" width="10" height="10" rx="2" fill="#ffffff" stroke="#d0d7de"><title>2026-11-20: 未来日期</title></rect>
+  <rect x="758" y="229" width="10" height="10" rx="2" fill="#ffffff" stroke="#d0d7de"><title>2026-11-21: 未来日期</title></rect>
+  <rect x="30" y="259" width="10" height="10" rx="2" fill="#ffffff" stroke="#afb8c1" stroke-dasharray="2 2"/><text x="47" y="268" class="muted">未知 / 尚未同步</text>
+  <text x="620" y="268" class="muted">少</text><rect x="656" y="259" width="10" height="10" rx="2" fill="#ebedf0"/><rect x="670" y="259" width="10" height="10" rx="2" fill="#9be9a8"/><rect x="684" y="259" width="10" height="10" rx="2" fill="#40c463"/><rect x="698" y="259" width="10" height="10" rx="2" fill="#30a14e"/><rect x="712" y="259" width="10" height="10" rx="2" fill="#216e39"/><text x="735" y="268" class="muted">多</text>
+  <text x="30" y="298" font-size="12">最后更新: 2026-11-15 14:30 UTC+08:00</text>
+</svg>

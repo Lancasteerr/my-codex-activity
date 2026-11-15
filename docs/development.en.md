@@ -12,7 +12,7 @@
 ├── tests/                        # Built-in Node tests and synthetic fixtures
 ├── scripts/                      # Preview generation and release preparation
 ├── templates/                    # Profile workflow template and pinned release
-├── examples/                     # Dark and light SVG previews used by docs
+├── examples/                     # Chinese and English SVG previews in dark and light themes
 ├── .github/workflows/             # CI checks and reusable rendering workflow
 ├── .env.example                  # Bilingual configuration without credentials
 ├── package.json                  # Commands, Node requirement, package allowlist
@@ -43,7 +43,7 @@ npm run render:example
 npm pack --dry-run
 ```
 
-Four test groups cover secret protection and integration files, history and deduplication, upload recovery, and chart timing. Tests use synthetic data and mocked networking, without `.env` or real credentials. `render:example` rebuilds both documentation previews using a fixed date and synthetic data.
+Four test groups cover secret protection and integration files, history and deduplication, statistics and display configuration upload recovery, and bilingual charts with upload timing. Tests use synthetic data and mocked networking, without `.env` or real credentials. `render:example` rebuilds four Chinese/English, dark/light documentation previews using a fixed date and synthetic data.
 
 Update both language versions when changing documentation, and check language switches, relative links, and commands. `README.md` and files without `.en` remain the default Chinese entry points. Preserve the original MIT license.
 

@@ -12,6 +12,10 @@ Start with the [quick start](../README.en.md#quick-start). See [Privacy and cred
 | `GITHUB_REPOSITORY` | Yes | Existing `owner/repo`, using its default branch; URLs are not accepted |
 | `CODEX_BIN` | No | Absolute path to `codex.exe`; empty means automatic discovery |
 | `TIMEZONE` | No | IANA display timezone, such as `Asia/Singapore`; empty uses the computer's timezone |
+| `ACTIVITY_THEME` | No | `github-dark` (default) or `github-light`; applied by the next `sync` |
+| `ACTIVITY_LANGUAGE` | No | `en` (default) or `zh-CN`; applied by the next `sync` |
+
+Empty theme and language settings use their defaults. Unsupported values fail before network access. These settings affect chart appearance and language only; documentation and CLI language are unchanged.
 
 By default, only `.env` in the current working directory is read. Parent directories are not searched, and other tokens in the process environment are not silently used. To select a file explicitly:
 
@@ -25,7 +29,7 @@ npm run sync -- --env-file C:\private\codex-activity.env
 | --- | --- |
 | `npm run setup` | Checks Codex statistics and repository access, verifies the public tool revision, and generates files in `generated/`; does not change the remote repository or `.env` |
 | `npm run status` | Checks collection and GitHub read access, showing the last upload time; no remote writes |
-| `npm run sync` | Reads statistics, merges observed history, compares content, and uploads only changes |
+| `npm run sync` | Syncs statistics history, then theme and language; uploads each file only when changed |
 | `node src/cli.mjs --help` | Shows command help without configuration or network access |
 
 Files produced by `setup`:
@@ -42,23 +46,32 @@ Only manual synchronization from one computer and one account is supported. Ther
 
 ## Data and history
 
-The tool maintains `data/codex/usage.json` in the Profile repository; Actions writes only `assets/codex-activity.svg`. Do not edit the statistics JSON manually.
+The tool maintains `data/codex/usage.json` and `data/codex/config.json` in the Profile repository. The latter contains only public `theme` and `language` settings. Actions writes only `assets/codex-activity.svg`. Do not edit the statistics JSON manually.
 
 - Preserve all history actually returned by the interface; do not assume a fixed window.
 - Replace a date with its newest value, without adding counts. A shorter source window does not delete saved dates.
 - An explicit 0 means zero usage; a missing date means `unknown`. Null daily buckets or collection failures do not overwrite remote files.
-- Summary values may be `null`, displayed as `Unavailable`. Lifetime tokens use the official summary, never a sum inferred from limited daily records.
-- Public fields are limited to schema version, source marker, lifetime tokens, streak days, and daily tokens. Account details and raw RPC are excluded.
+- Summary values may be `null`, displayed as `Unavailable` / `暂无数据`. Lifetime tokens use the official summary, never a sum inferred from limited daily records.
+- Public fields are limited to schema version, source marker, lifetime tokens, streak days, daily tokens, theme, and language. Account details and raw RPC are excluded.
 
-## Time, themes, and daily redraw
+## Time, themes, language, and daily redraw
 
-`Last updated` is the Git commit time of the most recent statistics JSON change, representing the last actual upload. Unchanged data causes no upload or time change. A manual JSON edit makes its commit the new update time.
+`Last updated` / `最后更新` is the Git commit time of the most recent statistics JSON change, representing the last actual upload. Unchanged statistics cause no data upload or time change. Changing only theme or language does not change this time. A manual statistics JSON edit makes its commit the new update time.
 
 The workflow redraws the latest 52 weeks and marks the current day at approximately **00:17** in the display timezone each day. The local computer can be off. The template uses an IANA timezone schedule; 00:17 in Singapore equals 16:17 UTC on the preceding day. GitHub scheduling may be delayed, and scheduled workflows in inactive public repositories may be disabled.
 
 Daily redraw does not query Codex or change `Last updated`. New dates without uploads remain `unknown`, and summaries retain their last-sync values. Official date buckets are preserved; the display timezone does not repartition daily statistics.
 
-The default theme is `github-dark`. For a light theme, set `theme` to `github-light` in the Profile workflow entry; editing that entry triggers a redraw. The workflow and renderer are pinned to a full commit SHA. To upgrade, run the new version's `setup` and replace the Profile workflow entry.
+The default theme is `github-dark` and the default language is `en`. Set these values in your local `.env`, then run `npm run sync`:
+
+```dotenv
+ACTIVITY_THEME=github-light
+ACTIVITY_LANGUAGE=zh-CN
+```
+
+Even with unchanged statistics, `sync` separately compares and uploads changed display settings, triggering an Actions redraw. If neither file changes, nothing is committed. Actions prefers `data/codex/config.json`; if absent, it uses the workflow's `theme` and English. Invalid configuration stops publication. The update time still comes from the statistics file's commit.
+
+Existing Profiles require a one-time workflow upgrade: use a published version containing this feature, rerun `setup`, replace and commit the generated Profile workflow entry, then run `sync`. The workflow and renderer are pinned to a full commit SHA; updating local code alone does not upgrade the remote renderer. Later theme and language changes do not require `setup`. Timezone changes still require regenerating and replacing the workflow entry.
 
 ## Failures and recovery
 
@@ -72,6 +85,8 @@ The default theme is `github-dark`. For a light theme, set `theme` to `github-li
 | Temporary network failure | The tool retries a limited number of times; sanitized pending statistics stay in local cache and merge on the next `sync` |
 | Upload SHA conflict | The tool rereads, merges, and retries without force pushing |
 | JSON uploaded but chart failed | Run Codex Activity manually in Profile Actions, or wait for the next daily run |
+| Statistics sync completed but display configuration sync failed | Fix network or permission issues and rerun `sync`; completed statistics uploads are not rolled back |
+| Invalid display configuration file | Correct `data/codex/config.json` to a valid `theme` and `language` object, or delete it and rerun `sync` to recreate it |
 | Public revision validation fails or checkout cannot find SHA | Ensure the correct commit is pushed to the public tool repository, then rerun `setup` to update the entry |
 | Daily workflow delayed or disabled | Check and re-enable it in Actions, or run it manually |
 

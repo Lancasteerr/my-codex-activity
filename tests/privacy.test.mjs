@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { writeFile, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { readConfig } from '../src/config.mjs';
+import { readConfig, normalizeDisplayConfig } from '../src/config.mjs';
 import { collectorEnvironment } from '../src/collector.mjs';
 import { fromRpc, serializeUsage } from '../src/data.mjs';
 import { GitHubClient } from '../src/github.mjs';
@@ -23,6 +23,20 @@ test('privacy: isolate dotenv, whitelist data, suppress upstream errors and excl
   assert.equal(config.token, secret);
   assert.equal(process.env.GITHUB_TOKEN, previous);
   assert.equal(config.NODE_OPTIONS, undefined);
+  assert.deepEqual({ theme: config.theme, language: config.language }, { theme: 'github-dark', language: 'en' });
+  const envText = await readFile(envFile, 'utf8');
+  await writeFile(envFile, `${envText}ACTIVITY_THEME=github-light\nACTIVITY_LANGUAGE=zh-CN\n`);
+  const localized = await readConfig(envFile);
+  assert.equal(localized.theme, 'github-light');
+  assert.equal(localized.language, 'zh-CN');
+  await writeFile(envFile, `${envText}ACTIVITY_THEME=\nACTIVITY_LANGUAGE=\n`);
+  assert.equal((await readConfig(envFile)).language, 'en');
+  assert.equal((await readConfig(envFile)).theme, 'github-dark');
+  for (const setting of ['ACTIVITY_THEME=invalid', 'ACTIVITY_LANGUAGE=invalid']) {
+    await writeFile(envFile, `${envText}${setting}\n`);
+    await assert.rejects(readConfig(envFile), error => error.code === 'CONFIG' && !safeError(error).includes(secret));
+  }
+  assert.deepEqual(normalizeDisplayConfig({ ...localized, email }), { theme: 'github-light', language: 'zh-CN' });
   const raw = {
     summary: { lifetimeTokens: 100, currentStreakDays: 1, token: secret, email },
     dailyUsageBuckets: [{ startDate: '2026-11-15', tokens: 100, cookie: secret }],
@@ -52,6 +66,7 @@ test('privacy: isolate dotenv, whitelist data, suppress upstream errors and excl
   const workflow = profileWorkflow(template, { branch: 'main', timezone: config.timezone, repository: 'example/tool', ref: 'a'.repeat(40) });
   assert.ok(!workflow.includes(secret) && workflow.includes('timezone: "Asia/Singapore"'));
   assert.ok(workflow.includes(`@${'a'.repeat(40)}`));
+  assert.ok(workflow.includes("'data/codex/config.json'"));
   const release = { repository: 'example/tool', ref: 'a'.repeat(40) };
   const documents = setupDocuments(config, 'main', release);
   assert.deepEqual(Object.keys(documents).sort(), ['README-snippet.en.md', 'README-snippet.md', 'SETUP.en.md', 'SETUP.md']);

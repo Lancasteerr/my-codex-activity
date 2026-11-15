@@ -1,10 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="820" height="326" viewBox="0 0 820 326" role="img" aria-labelledby="title description">
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="326" viewBox="0 0 820 326" xml:lang="en" role="img" aria-labelledby="title description">
   <title id="title">Codex Activity</title>
   <desc id="description">52-week view · through 2026-11-15 · summaries as of last sync. 287400000 lifetime tokens. Last data upload: 2026-11-15 14:30 UTC+08:00. Dashed cells are unknown, not zero.</desc>
   <rect x="0.5" y="0.5" width="819" height="325" rx="14" fill="#0d1117" stroke="#30363d"/>
-  <style>text{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;fill:#e6edf3}.muted{fill:#8b949e;font-size:11px}.metric{font-size:25px;font-weight:600}.label{font-size:11px;fill:#8b949e}</style>
+  <style>text{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Microsoft YaHei,PingFang SC,Noto Sans CJK SC,sans-serif;fill:#e6edf3}.muted{fill:#8b949e;font-size:11px}.metric{font-size:25px;font-weight:600}.label{font-size:11px;fill:#8b949e}</style>
   <text x="30" y="32" font-size="18" font-weight="600">Codex Activity</text>
-  <text x="30" y="51" class="muted">52-week view · through 2026-11-15 · summaries as of last sync</text>
   <text x="30" y="77" class="label">TOTAL TOKENS</text><text x="30" y="106" class="metric">287.4M</text>
   <text x="300" y="77" class="label">ACTIVE STREAK · AT LAST SYNC</text><text x="300" y="106" class="metric">8 days</text>
   <text x="610" y="77" class="label">RECORDED DAYS</text><text x="610" y="106" class="metric">273</text>
@@ -383,5 +382,4 @@
   <rect x="30" y="259" width="10" height="10" rx="2" fill="#0d1117" stroke="#484f58" stroke-dasharray="2 2"/><text x="47" y="268" class="muted">Unknown / not synced</text>
   <text x="620" y="268" class="muted">Less</text><rect x="656" y="259" width="10" height="10" rx="2" fill="#161b22"/><rect x="670" y="259" width="10" height="10" rx="2" fill="#0e4429"/><rect x="684" y="259" width="10" height="10" rx="2" fill="#006d32"/><rect x="698" y="259" width="10" height="10" rx="2" fill="#26a641"/><rect x="712" y="259" width="10" height="10" rx="2" fill="#39d353"/><text x="735" y="268" class="muted">More</text>
   <text x="30" y="298" font-size="12">Last updated: 2026-11-15 14:30 UTC+08:00</text>
-  <text x="30" y="314" class="muted">Data uploaded to GitHub · daily redraw does not refresh this time</text>
 </svg>

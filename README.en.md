@@ -27,6 +27,8 @@ You need Windows, Node.js **24.10+**, Git, and a signed-in Codex runtime support
 
    Create a GitHub **Fine-grained personal access token**: select your account as Resource owner, select only the target Profile repository, grant **Contents: Read and write**, and set an expiration. Metadata read access is automatic; Workflows permission is unnecessary. Do not commit `.env`.
 
+   Optional: set `ACTIVITY_THEME=github-light` for the light theme and `ACTIVITY_LANGUAGE=zh-CN` for Chinese charts. The defaults are dark and English. With the updated workflow installed, apply later changes with `npm run sync`.
+
 3. Check configuration and generate integration files:
 
    ```powershell

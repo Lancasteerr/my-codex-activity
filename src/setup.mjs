@@ -80,6 +80,8 @@ export function setupDocuments({ repository }, branch, release) {
       '3. 运行 npm run sync；不需要创建空 JSON 或配置仓库 Secrets。', '',
       `工具引用：${release.repository}@${release.ref}。该提交必须已在公开工具仓库中发布，GitHub 才能执行工作流。`,
       '升级时重新运行 setup，将生成的新入口替换到 Profile。不要复制 .env。', '',
+      '已有 Profile 首次启用双语和显示配置同步时，须先升级上述工作流入口。之后在本机 .env 设置 ACTIVITY_THEME（github-dark / github-light）、ACTIVITY_LANGUAGE（en / zh-CN），运行 npm run sync 即可应用；默认深色、英文。',
+      'sync 只公开主题和语言，不上传 .env；只改显示配置不会改变统计更新时间。时区变更仍需重新生成并替换工作流入口。', '',
     ].join('\n'),
     'SETUP.en.md': [
       '# Profile integration', '',
@@ -90,6 +92,8 @@ export function setupDocuments({ repository }, branch, release) {
       '3. Run npm run sync; no empty JSON or repository Secrets are needed.', '',
       `Tool reference: ${release.repository}@${release.ref}. This commit must be published in the public tool repository before GitHub can run the workflow.`,
       'To upgrade, rerun setup and replace the generated Profile workflow entry. Do not copy .env.', '',
+      'Existing Profiles must first upgrade the workflow entry above to enable bilingual charts and display configuration sync. Then set ACTIVITY_THEME (github-dark / github-light) and ACTIVITY_LANGUAGE (en / zh-CN) in your local .env and run npm run sync; defaults are dark and English.',
+      'sync publishes only theme and language, never .env; display-only changes preserve the statistics update time. Timezone changes still require regenerating and replacing the workflow entry.', '',
     ].join('\n'),
   };
 }

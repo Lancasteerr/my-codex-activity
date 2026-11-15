@@ -1,7 +1,7 @@
 import { readFile, writeFile, mkdir, realpath, lstat } from 'node:fs/promises';
 import { resolve, dirname, relative, isAbsolute, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { DATA_PATH, SVG_PATH } from './config.mjs';
+import { DATA_PATH, DISPLAY_CONFIG_PATH, SVG_PATH, normalizeDisplayConfig } from './config.mjs';
 import { normalizeUsage } from './data.mjs';
 import { renderSvg } from './render.mjs';
 import { git } from './git.mjs';
@@ -27,7 +27,7 @@ async function safeFile(root, name, { createParent = false } = {}) {
   return target;
 }
 
-export async function buildSvg(directory, { timezone = 'UTC', theme = 'github-dark', now = new Date() } = {}) {
+export async function buildSvg(directory, { timezone = 'UTC', theme = 'github-dark', language = 'en', now = new Date() } = {}) {
   const root = await realpath(directory);
   const input = await safeFile(root, DATA_PATH);
   let text;
@@ -36,9 +36,18 @@ export async function buildSvg(directory, { timezone = 'UTC', theme = 'github-da
   if (text.length > 2_000_000) fail('RENDER', '统计文件过大。');
   let usage;
   try { usage = normalizeUsage(JSON.parse(text)); } catch { fail('RENDER', '统计 JSON 无效；未修改图表。'); }
+  const configPath = await safeFile(root, DISPLAY_CONFIG_PATH);
+  let display = { theme, language };
+  try {
+    const configText = await readFile(configPath, 'utf8');
+    if (configText.length > 10_000) fail('RENDER', '显示配置文件过大。');
+    let config;
+    try { config = JSON.parse(configText); } catch { fail('RENDER', '显示配置 JSON 无效；未修改图表。'); }
+    display = normalizeDisplayConfig(config);
+  } catch (error) { if (error.code !== 'ENOENT') throw error; }
   const lastUpdated = await git(root, ['log', '-1', '--format=%cI', '--', DATA_PATH]);
   if (!lastUpdated) fail('RENDER', '未找到统计上传提交；请检出完整历史。');
-  const svg = renderSvg(usage, { lastUpdated, timezone, theme, now });
+  const svg = renderSvg(usage, { lastUpdated, timezone, ...display, now });
   const output = await safeFile(root, SVG_PATH, { createParent: true });
   await writeFile(output, svg);
   return true;

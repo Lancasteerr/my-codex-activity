@@ -13,8 +13,11 @@ const usage = { schemaVersion: 1, source: 'codex-app-server', summary: { lifetim
 const output = fileURLToPath(new URL('../examples/', import.meta.url));
 await mkdir(output, { recursive: true });
 for (const theme of ['github-dark', 'github-light']) {
-  await writeFile(`${output}/${theme}.svg`, renderSvg(usage, {
-    now: new Date('2026-11-15T06:30:00Z'), lastUpdated: '2026-11-15T06:30:00Z', timezone: 'Asia/Singapore', theme,
-  }));
+  for (const language of ['en', 'zh-CN']) {
+    const suffix = language === 'en' ? '' : `.${language}`;
+    await writeFile(`${output}/${theme}${suffix}.svg`, renderSvg(usage, {
+      now: new Date('2026-11-15T06:30:00Z'), lastUpdated: '2026-11-15T06:30:00Z', timezone: 'Asia/Singapore', theme, language,
+    }));
+  }
 }
 console.log('Synthetic examples generated. No real account data used.');

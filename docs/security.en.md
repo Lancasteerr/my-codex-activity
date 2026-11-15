@@ -14,7 +14,7 @@ Do not add `.env` to the Profile repository, bypass ignore rules with `git add -
 
 GitHub uploads use native `fetch` against the official API and reject HTTP redirects. Codex collection uses the runtime's own login state. The tool does not read, copy, or upload `auth.json`, create conversations, or run models. Public tool revision verification does not send the Profile token.
 
-Public data is reconstructed from an explicit field allowlist: schema version, source marker, lifetime tokens, streak days, and daily tokens. Raw accounts, email addresses, cookies, API keys, and token fields are not copied. Logs do not expose raw responses, request headers, configuration objects, or upstream exceptions.
+Public data is reconstructed from an explicit field allowlist: schema version, source marker, lifetime tokens, streak days, and daily tokens. The separate `data/codex/config.json` publishes only `theme` and `language`, never the whole `.env`. Raw accounts, email addresses, cookies, API keys, and token fields are not copied. Logs do not expose raw responses, request headers, configuration objects, or upstream exceptions.
 
 Statistics commits use the target repository owner's GitHub noreply email to keep private primary email addresses out of public commit metadata. This identity does not replace token authentication.
 

@@ -7,7 +7,7 @@ import { fail } from './errors.mjs';
 export const projectRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const repositoryPattern = /^[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+$/u;
 
-// 工具地址只从包信息读取；源码目录和安装包使用相同方式，不依赖 Git 元数据。
+// 默认工具地址从包信息读取；源码目录和安装包使用相同方式，不依赖 Git 元数据。
 export async function toolRepository() {
   const metadata = JSON.parse(await readFile(join(projectRoot, 'package.json'), 'utf8'));
   const repository = metadata.repository?.url?.match(/^https:\/\/github\.com\/(.+)\.git$/u)?.[1];
@@ -66,6 +66,7 @@ export function setupDocuments({ repository }, branch, actionRepository) {
       '2. 首次接入时，将 [README-snippet.md](./README-snippet.md) 中的内容加入 Profile README。',
       '3. 回到本机工具目录运行 npm run sync，等待 Profile Actions 生成图片。无需创建空 JSON 或配置仓库 Secrets。', '',
       `工具引用：${actionRepository}@main。后续兼容更新会在下次 Actions 运行时自动采用，无需再次替换工作流。旧版接入只需按第 1 步迁移一次。`, '',
+      '可在本机 .env 用 TOOL_REPOSITORY=owner/repo 指定公开上游，留空使用包信息中的默认仓库。上游 main 必须提供兼容的组合 Action。修改后需重新运行 npm run setup，替换并提交 Profile 工作流；npm run sync 不更新工作流。', '',
       '日常在本机 .env 设置 ACTIVITY_THEME、ACTIVITY_LANGUAGE 后运行 npm run sync；主题和语言之外的本机配置不会上传。修改时区后需重新 setup 并替换工作流。不要复制 .env。',
       '统计和显示配置都无变化时，不触发新的运行；需要立即重绘可在 Actions → Codex Activity 选择 Run workflow。最后更新时间表示统计上传时间，不是图片重绘时间。', '',
     ].join('\n'),
@@ -77,6 +78,7 @@ export function setupDocuments({ repository }, branch, actionRepository) {
       '2. For the first integration, add [README-snippet.en.md](./README-snippet.en.md) to the Profile README.',
       '3. Return to the local tool directory and run npm run sync, then wait for Profile Actions to generate the image. No empty JSON or repository Secrets are needed.', '',
       `Action reference: ${actionRepository}@main. Later compatible updates are used on the next Actions run without replacing the workflow. Existing integrations need step 1 only once to migrate.`, '',
+      'Set TOOL_REPOSITORY=owner/repo in your local .env to select a public upstream, or leave it empty to use the package default. Its main branch must provide a compatible composite Action. After changing it, rerun npm run setup, then replace and commit the Profile workflow; npm run sync does not update the workflow.', '',
       'For everyday use, set ACTIVITY_THEME and ACTIVITY_LANGUAGE in your local .env and run npm run sync; other local settings are not uploaded. Timezone changes require setup and workflow replacement. Do not copy .env.',
       'If statistics and display settings are unchanged, no new run is triggered. For an immediate redraw, choose Run workflow in Actions → Codex Activity. Last updated means statistics upload time, not image redraw time.', '',
     ].join('\n'),
@@ -84,7 +86,8 @@ export function setupDocuments({ repository }, branch, actionRepository) {
 }
 
 export async function generateSetup(config, branch, outputDirectory = join(process.cwd(), 'generated')) {
-  const repository = await toolRepository();
+  // 配置入口已完成格式校验；公开检查和所有接入材料使用同一个最终地址。
+  const repository = config.toolRepository ?? await toolRepository();
   await verifyAction(repository);
   const template = await readFile(join(projectRoot, 'templates', 'profile', 'codex-activity.yml'), 'utf8');
   const workflow = profileWorkflow(template, { branch, timezone: config.timezone, repository });

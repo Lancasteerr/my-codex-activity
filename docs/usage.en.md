@@ -10,12 +10,15 @@ Start with the [quick start](../README.en.md#quick-start). See [Privacy and cred
 | --- | --- | --- |
 | `GITHUB_TOKEN` | Yes | Fine-grained token selecting only the target repository, with Contents read/write access |
 | `GITHUB_REPOSITORY` | Yes | Existing `owner/repo`, using its default branch; URLs are not accepted |
+| `TOOL_REPOSITORY` | No | Public upstream in `owner/repo` format, always following `main`; empty uses `Lancasteerr/my-codex-activity` from package metadata |
 | `CODEX_BIN` | No | Absolute path to `codex.exe`; empty means automatic discovery |
 | `TIMEZONE` | No | IANA display timezone, such as `Asia/Singapore`; empty uses the computer's timezone |
 | `ACTIVITY_THEME` | No | `github-dark` (default) or `github-light`; applied by the next `sync` |
 | `ACTIVITY_LANGUAGE` | No | `en` (default) or `zh-CN`; applied by the next `sync` |
 
 Empty theme and language settings use their defaults. Unsupported values fail before network access. These settings affect chart appearance and language only; documentation and CLI language are unchanged.
+
+`TOOL_REPOSITORY` accepts only a repository address, without a URL, `@branch`, tag, or commit SHA; invalid formats fail before network access. A custom repository must be public and provide a compatible composite Action on `main`. After changing it, run `npm run setup`, replace the Profile workflow, then commit and push it; `npm run sync` does not update the workflow. Leave it empty to restore the default upstream, then regenerate and replace the workflow in the same way.
 
 By default, only `.env` in the current working directory is read. Parent directories are not searched, and other tokens in the process environment are not silently used. To select a file explicitly:
 
@@ -58,6 +61,7 @@ After migration:
 - **Local script updates**: run `git pull --ff-only` for a Git installation, or replace the source package while keeping `.env`.
 - **Theme or language changes**: edit `.env` and run `npm run sync`.
 - **Timezone changes**: rerun `setup`, then replace and commit the Profile workflow so the daily schedule and display timezone change together.
+- **Upstream repository changes**: edit `TOOL_REPOSITORY` in `.env`, rerun `setup`, then replace and commit the Profile workflow; each run uses the selected repository's latest `main` commit.
 - **Immediate redraw**: choose `Run workflow` in Profile Actions. When statistics and settings are unchanged, `sync` makes no commit and triggers no new run.
 
 Upload success means the JSON was committed; Actions still needs to generate the image. If the remote SVG changed but the Profile shows the old image, refresh and allow time for the image cache to update. `Last updated` means statistics upload time, not redraw time.

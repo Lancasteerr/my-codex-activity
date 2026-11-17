@@ -45,7 +45,7 @@ npm run render:example
 npm pack --dry-run
 ```
 
-Four test groups cover secret protection and integration files, history and deduplication, statistics and display configuration upload recovery, and bilingual charts with upload timing. Tests use synthetic data and mocked networking, without `.env` or real credentials. `render:example` rebuilds four Chinese/English, dark/light documentation previews using a fixed date and synthetic data.
+Tests cover secret protection and integration files, upstream configuration and public Action checks, history and deduplication, statistics and display configuration upload recovery, and bilingual charts with upload timing. Tests use synthetic data and mocked networking, without `.env` or real credentials. `render:example` rebuilds four Chinese/English, dark/light documentation previews using a fixed date and synthetic data.
 
 Update both language versions when changing documentation, and check language switches, relative links, and commands. `README.md` and files without `.en` remain the default Chinese entry points. Preserve the original MIT license.
 
@@ -66,7 +66,7 @@ npm uses the `files` allowlist in `package.json`, including runtime source, the 
 
 ## Release procedure
 
-Maintain the tool repository address only in `repository` in `package.json`. `setup` derives `<tool-repository>@main` from it, and the Action runs its own code without a second source repository address.
+Maintain the default tool repository address in `repository` in `package.json`; `TOOL_REPOSITORY` in the local `.env` can override it. `setup` checks that the selected repository is public and provides a composite Action on `main`, then uses the same `<tool-repository>@main` in the workflow and bilingual instructions. The Action runs its own code without a second source repository address. After switching upstream, rerun `setup`, then replace and commit the Profile workflow; `sync` does not modify it. Existing users without the setting continue following the default repository's latest `main` commit.
 
 1. Run the development checks, then commit implementation and matching documentation.
 2. Push compatible updates to `main` in the public tool repository; `action.yml` and runtime source are published together.

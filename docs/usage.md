@@ -10,12 +10,15 @@
 | --- | --- | --- |
 | `GITHUB_TOKEN` | 是 | 仅选择目标仓库、具有 Contents 读写权限的细粒度 Token |
 | `GITHUB_REPOSITORY` | 是 | 已存在的 `owner/repo`，使用默认分支；不能填写 URL |
+| `TOOL_REPOSITORY` | 否 | 公开上游 `owner/repo`，固定跟踪 `main`；留空使用包信息中的 `Lancasteerr/my-codex-activity` |
 | `CODEX_BIN` | 否 | `codex.exe` 的绝对路径；留空自动发现 |
 | `TIMEZONE` | 否 | IANA 显示时区，如 `Asia/Singapore`；留空读取本机时区 |
 | `ACTIVITY_THEME` | 否 | `github-dark`（默认）或 `github-light`；下次 `sync` 自动应用 |
 | `ACTIVITY_LANGUAGE` | 否 | `en`（默认）或 `zh-CN`；下次 `sync` 自动应用 |
 
 主题和语言留空时使用默认值，其他值会在联网前报错。这两项仅控制图片语言和外观；文档及 CLI 语言不受影响。
+
+`TOOL_REPOSITORY` 仅接受仓库地址，不能填写 URL、`@分支`、标签或提交 SHA；格式无效时在联网前报错。自定义仓库须公开，并在 `main` 提供兼容的组合 Action。修改后运行 `npm run setup`，将新工作流替换到 Profile 仓库并提交、推送；`npm run sync` 不更新工作流。留空可恢复默认上游，同样需要重新生成并替换入口。
 
 默认只读取当前工作目录的 `.env`，不搜索父目录，不静默使用进程环境中的其他 Token。可显式指定配置文件：
 
@@ -58,6 +61,7 @@ npm run sync -- --env-file C:\private\codex-activity.env
 - **本机脚本更新**：Git 安装运行 `git pull --ff-only`；源码包安装换用新版包，保留 `.env`。
 - **主题、语言变更**：修改 `.env` 后运行 `npm run sync`。
 - **时区变更**：重新 `setup`，替换并提交 Profile 工作流，使每日调度和显示时区一起更新。
+- **上游仓库变更**：修改 `.env` 中的 `TOOL_REPOSITORY`，重新 `setup`，替换并提交 Profile 工作流；每次运行使用选定仓库 `main` 的最新提交。
 - **立即重绘**：在 Profile Actions 选择 `Run workflow`。统计和配置都无变化时，`sync` 不提交，也不触发新运行。
 
 上传成功表示 JSON 已提交，图片需等待 Actions 生成。若远程 SVG 已更新而简介页仍显示旧图，可刷新并稍候图片缓存更新。`最后更新` 表示统计上传时间，不是重绘时间。

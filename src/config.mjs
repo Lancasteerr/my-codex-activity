@@ -32,6 +32,11 @@ export async function readConfig(envFile = '.env') {
   if (!/^[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+$/u.test(repository ?? '') || repository === 'your-name/your-name') {
     fail('CONFIG', 'GITHUB_REPOSITORY 必须是现有仓库的 owner/repo，不能填写 URL。');
   }
+  // 上游只允许覆盖仓库，工作流始终跟踪 main；留空时由 setup 读取包内默认地址。
+  const toolRepository = values.TOOL_REPOSITORY?.trim() || null;
+  if (toolRepository && !/^[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+$/u.test(toolRepository)) {
+    fail('CONFIG', 'TOOL_REPOSITORY 必须是 owner/repo，不能填写 URL、分支或版本引用。');
+  }
   const timezone = values.TIMEZONE?.trim() || Intl.DateTimeFormat().resolvedOptions().timeZone;
   try {
     new Intl.DateTimeFormat('en', { timeZone: timezone }).format();
@@ -42,6 +47,6 @@ export async function readConfig(envFile = '.env') {
     theme: values.ACTIVITY_THEME?.trim() || CHART_DEFAULTS.theme,
     language: values.ACTIVITY_LANGUAGE?.trim() || CHART_DEFAULTS.language,
   });
-  // Read only known keys. In particular, do not mutate process.env or propagate secrets.
-  return { token, repository, timezone, ...display, codexBin: values.CODEX_BIN?.trim() || null };
+  // 仅读取已知配置，不修改进程环境，也不透传未知字段或凭据。
+  return { token, repository, toolRepository, timezone, ...display, codexBin: values.CODEX_BIN?.trim() || null };
 }
